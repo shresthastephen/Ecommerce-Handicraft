@@ -9,13 +9,13 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full gold-gradient flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
                 <span className="font-serif font-bold text-lg text-primary-foreground">
-                  D
+                  SH
                 </span>
               </div>
               <span className="font-serif text-xl font-semibold">
-                Divine Arts
+                Shrestha Handicraft
               </span>
             </Link>
 

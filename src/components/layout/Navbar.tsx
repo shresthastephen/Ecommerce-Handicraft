@@ -8,8 +8,8 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
-// import { useCart } from "@/context/CartContext";
-// import { useWishlist } from "@/context/WishlistContext";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 import { categories } from "../../mockdata/products";
 
 export function Navbar() {
@@ -19,8 +19,8 @@ export function Navbar() {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const navigate = useNavigate();
-//   const { totalItems: cartItems, openCart } = useCart();
-//   const { totalItems: wishlistItems, openWishlist } = useWishlist();
+  const { totalItems: cartItems, openCart } = useCart();
+  const { totalItems: wishlistItems, openWishlist } = useWishlist();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -55,11 +55,11 @@ export function Navbar() {
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-gradient flex items-center justify-center">
               <span className="font-serif font-bold text-sm md:text-lg text-primary-foreground">
-                D
+                SH
               </span>
             </div>
             <span className="font-serif text-lg md:text-xl font-semibold">
-              Divine Arts
+              Shrestha Handicraft
             </span>
           </Link>
 
@@ -79,7 +79,7 @@ export function Navbar() {
               </button>
 
               {isCategoryOpen && (
-                <div className="absolute left-0 top-full mt-2 w-56 rounded-md border bg-background shadow-lg">
+                <div className="absolute left-0 top-full mt-2 w-56 rounded-md border bg-white shadow-lg">
                   {sortedCategories.map((cat) => (
                     <Link
                       key={cat.id}
@@ -112,7 +112,7 @@ export function Navbar() {
           </form>
 
           {/* Action Buttons */}
-          {/* <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <IconButton onClick={openWishlist} badge={wishlistItems}>
               <Heart className="h-5 w-5" />
             </IconButton>
@@ -127,7 +127,7 @@ export function Navbar() {
             >
               {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
-          </div> */}
+          </div>
         </nav>
 
         {/* Mobile Menu */}
@@ -177,30 +177,30 @@ export function Navbar() {
   );
 }
 
-// /* ---------- Reusable Icon Button ---------- */
-// function IconButton({
-//   children,
-//   onClick,
-//   badge,
-// }: {
-//   children: React.ReactNode;
-//   onClick?: () => void;
-//   badge?: number;
-// }) {
-//   return (
-//     <button
-//       onClick={onClick}
-//       className="relative p-2 rounded-md hover:bg-muted transition"
-//     >
-//       {children}
-//       {badge && badge > 0 && (
-//         <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
-//           {badge}
-//         </span>
-//       )}
-//     </button>
-//   );
-// }
+/* ---------- Reusable Icon Button ---------- */
+function IconButton({
+  children,
+  onClick,
+  badge,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+  badge?: number;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="relative p-2 rounded-md hover:bg-muted transition"
+    >
+      {children}
+      {badge && badge > 0 && (
+        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+          {badge}
+        </span>
+      )}
+    </button>
+  );
+}
 
 
 
