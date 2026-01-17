@@ -32,7 +32,7 @@ export default function Slider() {
 
             <Link
               to={slide.link}
-              className="mt-6 inline-block rounded-lg bg-white px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
+              className="mt-6 inline-block rounded-lg bg-gold-gradient px-6 py-3 font-semibold text-black transition hover:bg-gray-200"
             >
               {slide.cta}
             </Link>

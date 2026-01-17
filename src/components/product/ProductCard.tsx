@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import type { Product } from "../../types/product";
-// import { useWishlist } from "@/context/WishlistContext";
+import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../libs/utils";
 import { toast } from "sonner";
 
@@ -10,21 +10,21 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-//   const { isInWishlist, toggleItem } = useWishlist();
-//   const isWishlisted = isInWishlist(product.id);
+  const { isInWishlist, toggleItem } = useWishlist();
+  const isWishlisted = isInWishlist(product.id);
 
   const discount = Math.round(
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   );
 
-//   const handleWishlistClick = (e: React.MouseEvent) => {
-//     e.preventDefault();
-//     e.stopPropagation();
-//     toggleItem(product);
-//     toast.success(
-//       isWishlisted ? "Removed from wishlist" : "Added to wishlist"
-//     );
-//   };
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleItem(product);
+    toast.success(
+      isWishlisted ? "Removed from wishlist" : "Added to wishlist"
+    );
+  };
 
   return (
     <Link
@@ -47,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         {/* Wishlist Button */}
-        {/* <button
+        <button
           onClick={handleWishlistClick}
           className={cn(
             "absolute top-3 right-3 p-2 rounded-full transition-all duration-300",
@@ -60,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart
             className={cn("h-4 w-4", isWishlisted && "fill-current")}
           />
-        </button> */}
+        </button>
 
         {/* Quick View Overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />

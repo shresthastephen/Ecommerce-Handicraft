@@ -45,8 +45,8 @@ export function Navbar() {
     <header
       className={`sticky top-0 z-50 w-full transition-all ${
         isScrolled
-          ? "bg-background/95 backdrop-blur shadow-sm"
-          : "bg-background"
+          ? "bg-white/70 backdrop-blur shadow-sm"
+          : "bg-white"
       }`}
     >
       <div className="container mx-auto px-4">
@@ -106,7 +106,7 @@ export function Navbar() {
                 placeholder="Search for statues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-md bg-secondary/50 border border-transparent focus:outline-none focus:border-primary"
+                className="w-full pl-10 pr-3 py-2 rounded-md bg-white/50 border border-black focus:outline-none focus:border-primary"
               />
             </div>
           </form>
