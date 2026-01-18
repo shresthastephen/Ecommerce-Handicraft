@@ -16,13 +16,10 @@ export interface Product {
 }
 
 export type Category = 
-  | "ganesha"
-  | "krishna"
+  | "ganesh"
   | "shiva"
   | "buddha"
-  | "lakshmi"
-  | "hanuman"
-  | "durga"
+  | "laxmi"
   | "saraswati";
 
 export interface CategoryInfo {

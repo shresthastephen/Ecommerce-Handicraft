@@ -1,75 +1,60 @@
 
 import type { Product, CategoryInfo } from "../types/product";
+import slide from "../assets/slide.jpg";
+import slide2 from "../assets/slide2.jpg";
+import slide3 from "../assets/slide3.jpg";
+import buddha from "../assets/buddha.jpg";
+import shiva from "../assets/shiva.jpg";
+import ganesh from "../assets/ganesh.jpg";
+import saraswati from "../assets/saraswati.jpg";
+import laxmi from "../assets/laxmi.jpg";
 
 
 export const categoryImages = {
-  ganesha: {
-    hero: "https://buddhacraftnepal.com/cdn/shop/files/buddha-craft.jpg?v=1716383157&width=3840",
-    square: "https://images.unsplash.com/photo-1567591370504-80c7e429e926?w=400&h=400&fit=crop",
+  ganesh: {
+    hero: ganesh,
+    square: ganesh,
   },
   buddha: {
-    hero: "https://newbusinessage.prixacdn.net/img/news/20211215112441_20170913113102_sect.jpg",
-    square: "https://images.unsplash.com/photo-1609619385002-f40f1df827b8?w=400&h=400&fit=crop",
+    hero: buddha,
+    square: buddha,
   },
   shiva: {
-    hero: "https://images.unsplash.com/photo-1548013146-72479768bada?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1548013146-72479768bada?w=400&h=400&fit=crop",
+    hero: shiva,
+    square: shiva,
   },
-  krishna: {
-    hero: "https://images.unsplash.com/photo-1604608672516-f1b9b1b37a04?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1604608672516-f1b9b1b37a04?w=400&h=400&fit=crop",
+
+  laxmi: {
+    hero: laxmi,
+    square: laxmi,
   },
-  lakshmi: {
-    hero: "https://images.unsplash.com/photo-1606293926249-ed22e446d476?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1606293926249-ed22e446d476?w=400&h=400&fit=crop",
-  },
-  hanuman: {
-    hero: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&h=400&fit=crop",
-  },
-  durga: {
-    hero: "https://images.unsplash.com/photo-1602442787305-decbd65be507?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1602442787305-decbd65be507?w=400&h=400&fit=crop",
-  },
+ 
+ 
   saraswati: {
-    hero: "https://images.unsplash.com/photo-1545468800-85cc9bc6ecf7?w=1200&h=800&fit=crop",
-    square: "https://images.unsplash.com/photo-1545468800-85cc9bc6ecf7?w=400&h=400&fit=crop",
-  },
+    hero: saraswati,
+    square: saraswati,
+  }
+
 } as const;
 
 // Product-level galleries (kept minimal & consistent)
 export const productImages = {
-  ganesha: [
-    "https://images.unsplash.com/photo-1567591370504-80c7e429e926?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1599030715577-4a4e7d0e0e3e?w=800&h=800&fit=crop",
+  ganesh: [
+    ganesh
   ],
   buddha: [
-    "https://images.unsplash.com/photo-1609619385002-f40f1df827b8?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+    buddha
   ],
   shiva: [
-    "https://images.unsplash.com/photo-1548013146-72479768bada?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=800&h=800&fit=crop",
+    shiva
   ],
-  krishna: [
-    "https://images.unsplash.com/photo-1604608672516-f1b9b1b37a04?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1606293926249-ed22e446d476?w=800&h=800&fit=crop",
+ 
+  laxmi: [
+    laxmi
   ],
-  lakshmi: [
-    "https://images.unsplash.com/photo-1606293926249-ed22e446d476?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1602442787305-decbd65be507?w=800&h=800&fit=crop",
-  ],
-  hanuman: [
-    "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1567591370504-80c7e429e926?w=800&h=800&fit=crop",
-  ],
-  durga: [
-    "https://images.unsplash.com/photo-1602442787305-decbd65be507?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1545468800-85cc9bc6ecf7?w=800&h=800&fit=crop",
-  ],
+ 
   saraswati: [
-    "https://images.unsplash.com/photo-1545468800-85cc9bc6ecf7?w=800&h=800&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=800&fit=crop",
+    saraswati
   ],
 } as const;
 
@@ -77,10 +62,10 @@ export const productImages = {
 
 export const categories: CategoryInfo[] = [
   {
-    id: "ganesha",
-    name: "Ganesha",
+    id: "ganesh",
+    name: "Ganesh",
     description: "Lord of Beginnings and Remover of Obstacles",
-    image: categoryImages.ganesha.square,
+    image: categoryImages.ganesh.square,
   },
   {
     id: "buddha",
@@ -94,30 +79,14 @@ export const categories: CategoryInfo[] = [
     description: "The Destroyer and Transformer",
     image: categoryImages.shiva.square,
   },
+  
   {
-    id: "krishna",
-    name: "Krishna",
-    description: "The Divine Protector",
-    image: categoryImages.krishna.square,
-  },
-  {
-    id: "lakshmi",
-    name: "Lakshmi",
+    id: "laxmi",
+    name: "Laxmi",
     description: "Goddess of Wealth and Prosperity",
-    image: categoryImages.lakshmi.square,
+    image: categoryImages.laxmi.square,
   },
-  {
-    id: "hanuman",
-    name: "Hanuman",
-    description: "The Monkey God of Devotion",
-    image: categoryImages.hanuman.square,
-  },
-  {
-    id: "durga",
-    name: "Durga",
-    description: "The Warrior Goddess",
-    image: categoryImages.durga.square,
-  },
+ 
   {
     id: "saraswati",
     name: "Saraswati",
@@ -130,16 +99,16 @@ export const categories: CategoryInfo[] = [
 export const products: Product[] = [
   {
     id: "gan-001",
-    name: "Brass Ganesha with Ornate Base",
-    description: "Exquisitely crafted brass Ganesha statue with antique finish.",
+    name: "Shree Ganesh",
+    description: "Ganesha statue with antique finish.",
     price: 2499,
     originalPrice: 3299,
-    images: [...productImages.ganesha],
-    category: "ganesha",
-    material: "Brass",
+    images: [...productImages.ganesh],
+    category: "ganesh",
+    material: "Copper",
     dimensions: "8 x 5 x 4 inches",
     weight: "1.2 kg",
-    inStock: true,
+    inStock: false,
     isBestSeller: true,
     isNewArrival: false,
     createdAt: "2024-01-15",
@@ -184,7 +153,7 @@ export const bannerSlides = [
     id: 1,
     title: "Divine Artistry",
     subtitle: "Handcrafted God Statues for Your Sacred Space",
-    image: categoryImages.ganesha.hero,
+    image: slide,
     cta: "Explore Collection",
     link: "/shops",
   },
@@ -192,7 +161,7 @@ export const bannerSlides = [
     id: 2,
     title: "New Arrivals",
     subtitle: "Discover Our Latest Sacred Sculptures",
-    image: categoryImages.buddha.hero,
+    image: slide2,
     cta: "Shop New",
     link: "/shops?filter=new",
   },
@@ -200,7 +169,7 @@ export const bannerSlides = [
     id: 3,
     title: "Bronze Masterpieces",
     subtitle: "Timeless Beauty in Every Detail",
-    image: categoryImages.shiva.hero,
+    image: slide3,
     cta: "View Collection",
     link: "/shops",
   },
