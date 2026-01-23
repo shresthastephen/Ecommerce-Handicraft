@@ -58,25 +58,29 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="footer-title">Contact Us</h4>
+            <h4 className="footer-title mb-4">Contact Us</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>123 Temple Street</li>
-              <li>Mumbai, Maharashtra 400001</li>
-              <li>India</li>
-              <li className="pt-2">
+              <li>Thaina, Lalitpur, Nepal</li>
+              <li>
                 <a
-                  href="mailto:info@divinearts.com"
+                  href="mailto:stephencrestha07@gmail.com"
                   className="footer-link"
                 >
-                  info@divinearts.com
+                  info@shresthahandicraft.com
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+911234567890"
+                  href="tel:+977 9841835052"
                   className="footer-link"
                 >
-                  +91 123 456 7890
+                  +977 9841835052
+                </a> <br />
+                <a
+                  href="tel:+977 9841835052"
+                  className="footer-link"
+                >
+                  +977 9863021927
                 </a>
               </li>
             </ul>
@@ -85,7 +89,7 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Divine Arts. All rights reserved.
+          © {new Date().getFullYear()} Shrestha Handicraft. All rights reserved.
         </div>
       </div>
     </footer>
@@ -103,7 +107,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h4 className="footer-title">{title}</h4>
+      <h4 className="footer-title mb-4">{title}</h4>
       <ul className="space-y-2">{children}</ul>
     </div>
   );
