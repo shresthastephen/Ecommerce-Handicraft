@@ -76,10 +76,10 @@ export function ProductCard({ product }: ProductCardProps) {
         </p>
         <div className="flex items-center gap-2 mt-2">
           <span className="text-lg font-semibold text-yellow-500">
-            ₹{product.price.toLocaleString()}
+            NPR {product.price.toLocaleString()}
           </span>
           <span className="text-sm text-muted-foreground line-through">
-            ₹{product.originalPrice.toLocaleString()}
+            NPR {product.originalPrice.toLocaleString()}
           </span>
         </div>
       </div>

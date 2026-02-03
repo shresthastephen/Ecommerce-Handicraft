@@ -7,18 +7,15 @@ import { ProductCard } from "../components/product/ProductCard";
 import { ProductCards } from "../components/product/ProductCards";
 import {
   FilterSidebar,
-//   type FilterButtons,
   type FilterType,
   type SortType,
 } from "../components/product/FilterSidebar";
 
-// Helper function to extract size from dimensions string
 function extractSize(dimensions: string): number {
   const match = dimensions.match(/(\d+)/);
   return match ? parseInt(match[1]) : 0;
 }
 
-// Helper function to extract weight from weight string
 function extractWeight(weight: string): number {
   const match = weight.match(/([\d.]+)/);
   return match ? parseFloat(match[1]) : 0;
@@ -30,7 +27,6 @@ export default function Shops() {
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const initialSearch = searchParams.get("search") || "";
 
-  // Calculate max values
   const maxPrice = Math.max(...products.map((p) => p.price));
   const maxSize = Math.max(...products.map((p) => extractSize(p.dimensions)));
   const maxWeight = Math.max(
@@ -52,7 +48,6 @@ export default function Shops() {
   ]);
   const [sortOrder, setSortOrder] = useState<SortType>("none");
 
-  // Simulate loading
   useEffect(() => {
     setIsLoading(true);
     const timer = setTimeout(() => setIsLoading(false), 500);
@@ -69,14 +64,14 @@ export default function Shops() {
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Filter
+    // filter
     if (activeFilter === "top") {
       result = result.filter((p) => p.isBestSeller);
     } else if (activeFilter === "new") {
       result = result.filter((p) => p.isNewArrival);
     }
 
-    // Search
+    // search
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
@@ -87,24 +82,20 @@ export default function Shops() {
       );
     }
 
-    // Price
     result = result.filter(
       (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
     );
 
-    // Size
     result = result.filter((p) => {
       const size = extractSize(p.dimensions);
       return size >= sizeRange[0] && size <= sizeRange[1];
     });
 
-    // Weight
     result = result.filter((p) => {
       const weight = extractWeight(p.weight);
       return weight >= weightRange[0] && weight <= weightRange[1];
     });
 
-    // Sort
     if (sortOrder === "low-to-high") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "high-to-low") {
@@ -124,10 +115,9 @@ export default function Shops() {
   return (
     <main className="min-h-screen bg-white">
       <div className="container mx-auto px-4">
-        {/* HEADER */}
         <div className="sticky top-16 md:top-20 z-40 bg-white py-4 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            {/* Title */}
+
             <h1 className="text-2xl md:text-3xl font-serif font-semibold shrink-0">
               All Products
             </h1>
@@ -142,7 +132,7 @@ export default function Shops() {
 
             {/* Search */}
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4  " />
               <input
                 type="search"
                 placeholder="Search products..."
@@ -151,13 +141,13 @@ export default function Shops() {
                 className="
                   w-full
                   rounded-md
-                  border border-gray-300
+                  border border-gray-500
                   bg-white
                   pl-10 pr-3 py-2
                   text-sm
                   outline-none
-                  focus:border-primary
-                  focus:ring-1 focus:ring-primary
+                  focus:border
+                  focus:ring-1 focus:ring-yellow-500
                 "
               />
             </div>
@@ -165,7 +155,7 @@ export default function Shops() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 py-6">
-          {/* SIDEBAR */}
+          {/* sidebar */}
           <div className="md:sticky md:top-44 md:self-start">
             <FilterSidebar
               activeFilter={activeFilter}
@@ -184,7 +174,7 @@ export default function Shops() {
             />
           </div>
 
-          {/* PRODUCTS */}
+          {/* cards */}
           <div className="flex-1">
             {isLoading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

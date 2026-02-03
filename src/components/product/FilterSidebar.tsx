@@ -1,13 +1,11 @@
-import { cn } from "../../libs/utils";
 import { ArrowUpDown } from "lucide-react";
+import { cn } from "../../libs/utils";
+import { RangeSlider } from "./RangeSlider";
 
 export type FilterType = "all" | "top" | "new";
 export type SortType = "none" | "low-to-high" | "high-to-low";
 
 interface FilterSidebarProps {
-  activeFilter: FilterType;
-  onFilterChange: (filter: FilterType) => void;
-
   priceRange: [number, number];
   onPriceRangeChange: (range: [number, number]) => void;
   maxPrice: number;
@@ -47,64 +45,28 @@ export function FilterSidebar({
           Price Range (₹)
         </label>
 
-        <input
-          type="range"
-          min={0}
+        <RangeSlider
+          value={priceRange}
           max={maxPrice}
           step={100}
-          value={priceRange[0]}
-          onChange={(e) =>
-            onPriceRangeChange([Number(e.target.value), priceRange[1]])
-          }
-          className="w-full"
-        />
-
-        <input
-          type="range"
-          min={0}
-          max={maxPrice}
-          step={100}
-          value={priceRange[1]}
-          onChange={(e) =>
-            onPriceRangeChange([priceRange[0], Number(e.target.value)])
-          }
-          className="w-full mt-2"
+          onChange={onPriceRangeChange}
         />
 
         <div className="flex justify-between text-xs text-muted-foreground mt-2">
-          <span>₹{priceRange[0]}</span>
-          <span>₹{priceRange[1]}</span>
+          <span>NPR {priceRange[0]}</span>
+          <span>NPR {priceRange[1]}</span>
         </div>
       </div>
 
       {/* SIZE */}
       <div className="mb-6">
-        <label className="text-sm font-medium block mb-2">
-          Size (inches)
-        </label>
+        <label className="text-sm font-medium block mb-2">Size (inches)</label>
 
-        <input
-          type="range"
-          min={0}
+        <RangeSlider
+          value={sizeRange}
           max={maxSize}
           step={1}
-          value={sizeRange[0]}
-          onChange={(e) =>
-            onSizeRangeChange([Number(e.target.value), sizeRange[1]])
-          }
-          className="w-full"
-        />
-
-        <input
-          type="range"
-          min={0}
-          max={maxSize}
-          step={1}
-          value={sizeRange[1]}
-          onChange={(e) =>
-            onSizeRangeChange([sizeRange[0], Number(e.target.value)])
-          }
-          className="w-full mt-2"
+          onChange={onSizeRangeChange}
         />
 
         <div className="flex justify-between text-xs text-muted-foreground mt-2">
@@ -115,32 +77,13 @@ export function FilterSidebar({
 
       {/* WEIGHT */}
       <div className="mb-6">
-        <label className="text-sm font-medium block mb-2">
-          Weight (kg)
-        </label>
+        <label className="text-sm font-medium block mb-2">Weight (kg)</label>
 
-        <input
-          type="range"
-          min={0}
+        <RangeSlider
+          value={weightRange}
           max={maxWeight}
           step={0.1}
-          value={weightRange[0]}
-          onChange={(e) =>
-            onWeightRangeChange([Number(e.target.value), weightRange[1]])
-          }
-          className="w-full"
-        />
-
-        <input
-          type="range"
-          min={0}
-          max={maxWeight}
-          step={0.1}
-          value={weightRange[1]}
-          onChange={(e) =>
-            onWeightRangeChange([weightRange[0], Number(e.target.value)])
-          }
-          className="w-full mt-2"
+          onChange={onWeightRangeChange}
         />
 
         <div className="flex justify-between text-xs text-muted-foreground mt-2">
@@ -151,9 +94,7 @@ export function FilterSidebar({
 
       {/* SORT */}
       <div className="mb-6">
-        <label className="text-sm font-medium block mb-2">
-          Sort by Price
-        </label>
+        <label className="text-sm font-medium block mb-2">Sort by Price</label>
 
         <div className="flex flex-col gap-2">
           <button
@@ -161,10 +102,10 @@ export function FilterSidebar({
               onSortChange(sortOrder === "low-to-high" ? "none" : "low-to-high")
             }
             className={cn(
-              "flex items-center gap-2 px-3 py-2 rounded-md text-sm",
+              "flex items-center gap-2 px-3 py-2 rounded-md text-sm border-2 border-yellow-500",
               sortOrder === "low-to-high"
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary hover:bg-secondary/80"
+                ? "bg-yellow-500 text-black"
+                : "bg-white ",
             )}
           >
             <ArrowUpDown className="h-4 w-4" />
@@ -176,10 +117,10 @@ export function FilterSidebar({
               onSortChange(sortOrder === "high-to-low" ? "none" : "high-to-low")
             }
             className={cn(
-              "flex items-center gap-2 px-3 py-2 rounded-md text-sm",
+              "flex items-center gap-2 px-3 py-2 rounded-md text-sm border-2 border-yellow-500",
               sortOrder === "high-to-low"
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary hover:bg-secondary/80"
+                ? "bg-yellow-500 text-black"
+                : "bg-white ",
             )}
           >
             <ArrowUpDown className="h-4 w-4" />

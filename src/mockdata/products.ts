@@ -115,8 +115,8 @@ export const products: Product[] = [
   },
   {
     id: "bud-001",
-    name: "Meditating Buddha Bronze",
-    description: "Serene bronze Buddha in Dhyana Mudra.",
+    name: "Meditating Buddha ",
+    description: "Buddha in Dhyana Mudra.",
     price: 3299,
     originalPrice: 4199,
     images: [...productImages.buddha],
@@ -131,8 +131,8 @@ export const products: Product[] = [
   },
   {
     id: "shi-001",
-    name: "Nataraja Dancing Shiva",
-    description: "Cosmic dance of Lord Shiva in bronze.",
+    name: "Shiva",
+    description: "Cosmic of Lord Shiva.",
     price: 6999,
     originalPrice: 8499,
     images: [...productImages.shiva],

@@ -69,7 +69,7 @@ export function Navbar() {
             <Link className="nav-link" to="/shops">Shops</Link>
 
             {/* Categories Dropdown */}
-            <div
+            {/* <div
               className="relative"
               onMouseEnter={() => setIsCategoryOpen(true)}
               onMouseLeave={() => setIsCategoryOpen(false)}
@@ -91,7 +91,7 @@ export function Navbar() {
                   ))}
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
 
           {/* Search (Desktop) */}
@@ -100,13 +100,14 @@ export function Navbar() {
             className="hidden md:flex flex-1 max-w-md mx-4"
           >
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
               <input
                 type="search"
                 placeholder="Search for statues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-md bg-white/50 border border-black focus:outline-none focus:border-primary"
+                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border-1 border-gray-300  outline-none
+                  focus:border focus:ring-1 focus:ring-yellow-500"
               />
             </div>
           </form>
@@ -154,7 +155,7 @@ export function Navbar() {
                 Shops
               </Link>
 
-              <div className="border-t pt-3">
+              {/* <div className="border-t pt-3">
                 <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">
                   Categories
                 </p>
@@ -168,7 +169,7 @@ export function Navbar() {
                     {cat.name}
                   </Link>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         )}
