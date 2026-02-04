@@ -140,7 +140,7 @@ function SocialIcon({
     <a
       href="#"
       aria-label={label}
-      className="p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-muted transition"
+      className="p-2 rounded-md text-muted-foreground hover:text-yellow-500 transition-colors"
     >
       {children}
     </a>

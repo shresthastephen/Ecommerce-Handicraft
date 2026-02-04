@@ -54,7 +54,7 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-gradient flex items-center justify-center">
-              <span className="font-serif font-bold text-sm md:text-lg text-primary-foreground">
+              <span className="font-serif font-bold text-sm md:text-lg ">
                 SH
               </span>
             </div>
@@ -195,7 +195,7 @@ function IconButton({
     >
       {children}
       {badge && badge > 0 && (
-        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary  text-xs flex items-center justify-center">
           {badge}
         </span>
       )}
