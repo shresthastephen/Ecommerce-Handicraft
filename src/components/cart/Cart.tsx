@@ -16,13 +16,12 @@ export function Cart() {
 
   return (
     <>
-      {/* Overlay */}
+    
       <div
         className="fixed inset-0 bg-black/50 z-50 "
         onClick={closeCart}
       />
-
-      {/* Drawer */}
+      
       <div className="fixed right-0 top-0 h-full w-full md:w-[400px] lg:w-[25%] min-w-[320px] bg-white shadow-xl z-50 animate-slide-in-right flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">

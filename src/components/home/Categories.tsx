@@ -21,7 +21,6 @@ export function Categories() {
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />
-                {/* <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors" /> */}
               </div>
               <span className="mt-3 text-sm md:text-base font-medium  group-hover:text-yellow-600 transition-colors">
                 {category.name}

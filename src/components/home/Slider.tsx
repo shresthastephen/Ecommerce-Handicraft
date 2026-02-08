@@ -1,27 +1,20 @@
-import Carousel from 'react-bootstrap/Carousel';
-import { bannerSlides } from '../../mockdata/products';
-import { Link } from 'react-router-dom';
+import Carousel from "react-bootstrap/Carousel";
+import { bannerSlides } from "../../mockdata/products";
+import { Link } from "react-router-dom";
 
 export default function Slider() {
   return (
     <Carousel fade>
       {bannerSlides.map((slide) => (
         <Carousel.Item key={slide.id} interval={3000} className="relative">
-          
-          {/* Dark overlay */}
           <div className="absolute inset-0 bg-black/40 z-10" />
-
-          {/* Slide image */}
+          
           <img
             src={slide.image}
             alt={slide.title}
             className="w-full h-[80vh] min-h-[600px] object-cover"
           />
-
-          {/* Caption */}
-          <Carousel.Caption
-            className="z-20 flex h-full flex-col items-center justify-center text-center"
-          >
+          <Carousel.Caption className="z-20 flex h-full flex-col items-center justify-center text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white">
               {slide.title}
             </h1>
@@ -37,7 +30,6 @@ export default function Slider() {
               {slide.cta}
             </Link>
           </Carousel.Caption>
-
         </Carousel.Item>
       ))}
     </Carousel>

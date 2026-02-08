@@ -24,7 +24,7 @@ export function FilterButtons({
           className={`px-4 py-2 rounded-md text-sm font-medium transition
             ${
               activeFilter === filter.value
-                ? "bg-yellow-500 text-white"
+                ? "bg-yellow-500 text-black"
                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
         >

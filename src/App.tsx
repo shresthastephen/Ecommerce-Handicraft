@@ -10,10 +10,12 @@ import { Cart } from "./components/cart/Cart";
 import { Wishlist } from "./components/wishlist/Wishlist";
 import Index from "./pages/Index";
 import Shops from "./pages/Shops";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <CartProvider>
         <WishlistProvider>
           <Navbar />

@@ -37,7 +37,6 @@ export const categoryImages = {
 
 } as const;
 
-// Product-level galleries (kept minimal & consistent)
 export const productImages = {
   ganesh: [
     ganesh
@@ -108,9 +107,9 @@ export const products: Product[] = [
     material: "Copper",
     dimensions: "8 x 5 x 4 inches",
     weight: "1.2 kg",
-    inStock: false,
+    inStock: true,
     isBestSeller: true,
-    isNewArrival: false,
+    isNewArrival: true,
     createdAt: "2024-01-15",
   },
   {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Facebook, Instagram, } from "lucide-react";
 
 export function Footer() {
   return (
@@ -31,12 +31,8 @@ export function Footer() {
               <SocialIcon label="Instagram">
                 <Instagram />
               </SocialIcon>
-              <SocialIcon label="Twitter">
-                <Twitter />
-              </SocialIcon>
-              <SocialIcon label="YouTube">
-                <Youtube />
-              </SocialIcon>
+              
+              
             </div>
           </div>
 
@@ -44,11 +40,9 @@ export function Footer() {
           <FooterColumn title="Quick Links">
             <FooterLink to="/">Home</FooterLink>
             <FooterLink to="/shops">All Products</FooterLink>
-            <FooterLink to="/shops?filter=new">New Arrivals</FooterLink>
-            <FooterLink to="/shops?filter=top">Best Sellers</FooterLink>
           </FooterColumn>
 
-          {/* Information */}
+          {/* Info */}
           <FooterColumn title="Information">
             <FooterLink to="/about">About Us</FooterLink>
             <FooterLink to="/contact">Contact</FooterLink>
