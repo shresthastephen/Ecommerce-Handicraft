@@ -10,6 +10,7 @@ import {
   type FilterType,
   type SortType,
 } from "../components/product/FilterSidebar";
+import { FilterButtons } from "../components/product/FilterButtons";
 
 function extractSize(dimensions: string): number {
   const match = dimensions.match(/(\d+)/);
@@ -29,18 +30,13 @@ export default function Shops() {
 
   const maxPrice = Math.max(...products.map((p) => p.price));
   const maxSize = Math.max(...products.map((p) => extractSize(p.dimensions)));
-  const maxWeight = Math.max(
-    ...products.map((p) => extractWeight(p.weight))
-  );
+  const maxWeight = Math.max(...products.map((p) => extractWeight(p.weight)));
 
   const [activeFilter, setActiveFilter] = useState<FilterType>(initialFilter);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([
-    0,
-    maxPrice,
-  ]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPrice]);
   const [sizeRange, setSizeRange] = useState<[number, number]>([0, maxSize]);
   const [weightRange, setWeightRange] = useState<[number, number]>([
     0,
@@ -78,24 +74,28 @@ export default function Shops() {
         (p) =>
           p.name.toLowerCase().includes(query) ||
           p.category.toLowerCase().includes(query) ||
-          p.material.toLowerCase().includes(query)
+          p.material.toLowerCase().includes(query),
       );
     }
 
+    // price
     result = result.filter(
-      (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
     );
 
+    // size
     result = result.filter((p) => {
       const size = extractSize(p.dimensions);
       return size >= sizeRange[0] && size <= sizeRange[1];
     });
 
+    // weight
     result = result.filter((p) => {
       const weight = extractWeight(p.weight);
       return weight >= weightRange[0] && weight <= weightRange[1];
     });
 
+    // sort
     if (sortOrder === "low-to-high") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "high-to-low") {
@@ -117,49 +117,33 @@ export default function Shops() {
       <div className="container mx-auto px-4">
         <div className="sticky top-16 md:top-20 z-40 bg-white py-4 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-
             <h1 className="text-2xl md:text-3xl font-serif font-semibold shrink-0">
               All Products
             </h1>
 
-            {/* Filter buttons */}
-            {/* <FilterButtons
+            <FilterButtons
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
-            /> */}
+            />
 
             <div className="flex-1 hidden sm:block" />
 
-            {/* Search */}
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4  " />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
               <input
                 type="search"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="
-                  w-full
-                  rounded-md
-                  border border-gray-500
-                  bg-white
-                  pl-10 pr-3 py-2
-                  text-sm
-                  outline-none
-                  focus:border
-                  focus:ring-1 focus:ring-yellow-500
-                "
+                className="w-full rounded-md border border-gray-500 bg-white pl-10 pr-3 py-2 text-sm outline-none focus:ring-1 focus:ring-yellow-500"
               />
             </div>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 py-6">
-          {/* sidebar */}
           <div className="md:sticky md:top-44 md:self-start">
             <FilterSidebar
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
               priceRange={priceRange}
               onPriceRangeChange={setPriceRange}
               maxPrice={maxPrice}
@@ -174,7 +158,6 @@ export default function Shops() {
             />
           </div>
 
-          {/* cards */}
           <div className="flex-1">
             {isLoading ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

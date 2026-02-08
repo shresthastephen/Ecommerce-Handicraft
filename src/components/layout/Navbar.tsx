@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
@@ -18,16 +18,44 @@ export function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
+  const categoryRef = useRef<HTMLDivElement | null>(null);
+
   const navigate = useNavigate();
   const { totalItems: cartItems, openCart } = useCart();
   const { totalItems: wishlistItems, openWishlist } = useWishlist();
 
+  
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+// category dropdown
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        categoryRef.current &&
+        !categoryRef.current.contains(e.target as Node)
+      ) {
+        setIsCategoryOpen(false);
+      }
+    };
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsCategoryOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
+
+  // search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
@@ -44,17 +72,15 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all ${
-        isScrolled
-          ? "bg-white/70 backdrop-blur shadow-sm"
-          : "bg-white"
+        isScrolled ? "bg-white/70 backdrop-blur shadow-sm" : "bg-white"
       }`}
     >
       <div className="container mx-auto px-4">
         <nav className="flex h-16 md:h-20 items-center justify-between gap-4">
-          {/* Logo */}
+          {/* brand */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-gradient flex items-center justify-center">
-              <span className="font-serif font-bold text-sm md:text-lg ">
+              <span className="font-serif font-bold text-sm md:text-lg">
                 SH
               </span>
             </div>
@@ -63,27 +89,33 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/*  nav */}
           <div className="hidden md:flex items-center gap-6">
             <Link className="nav-link" to="/">Home</Link>
             <Link className="nav-link" to="/shops">Shops</Link>
 
-            {/* Categories Dropdown */}
-            {/* <div
-              className="relative"
-              onMouseEnter={() => setIsCategoryOpen(true)}
-              onMouseLeave={() => setIsCategoryOpen(false)}
-            >
-              <button className="flex items-center gap-1 nav-link">
-                Categories <ChevronDown className="h-4 w-4" />
+            
+            <div ref={categoryRef} className="relative">
+              <button
+                onClick={() => setIsCategoryOpen((p) => !p)}
+                className="flex items-center gap-1 nav-link"
+                aria-expanded={isCategoryOpen}
+              >
+                Categories
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    isCategoryOpen ? "rotate-180" : ""
+                  }`}
+                />
               </button>
 
               {isCategoryOpen && (
-                <div className="absolute left-0 top-full mt-2 w-56 rounded-md border bg-white shadow-lg">
+                <div className="absolute left-0 top-full mt-2 w-56 rounded-md border bg-white shadow-lg animate-fade-in">
                   {sortedCategories.map((cat) => (
                     <Link
                       key={cat.id}
                       to={`/category/${cat.id}`}
+                      onClick={() => setIsCategoryOpen(false)}
                       className="block px-4 py-2 text-sm hover:bg-muted transition"
                     >
                       {cat.name}
@@ -91,10 +123,10 @@ export function Navbar() {
                   ))}
                 </div>
               )}
-            </div> */}
+            </div>
           </div>
 
-          {/* Search (Desktop) */}
+        
           <form
             onSubmit={handleSearch}
             className="hidden md:flex flex-1 max-w-md mx-4"
@@ -106,13 +138,13 @@ export function Navbar() {
                 placeholder="Search for statues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border-1 border-gray-300  outline-none
-                  focus:border focus:ring-1 focus:ring-yellow-500"
+                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border border-gray-300 outline-none
+                  focus:ring-1 focus:ring-yellow-500"
               />
             </div>
           </form>
 
-          {/* Action Buttons */}
+          {/* btn */}
           <div className="flex items-center gap-2">
             <IconButton onClick={openWishlist} badge={wishlistItems}>
               <Heart className="h-5 w-5" />
@@ -131,7 +163,7 @@ export function Navbar() {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
+        {/* mobile view */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t py-4 animate-fade-in">
             <form onSubmit={handleSearch} className="mb-4">
@@ -155,7 +187,7 @@ export function Navbar() {
                 Shops
               </Link>
 
-              {/* <div className="border-t pt-3">
+              <div className="border-t pt-3">
                 <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">
                   Categories
                 </p>
@@ -169,7 +201,7 @@ export function Navbar() {
                     {cat.name}
                   </Link>
                 ))}
-              </div> */}
+              </div>
             </div>
           </div>
         )}
@@ -178,7 +210,6 @@ export function Navbar() {
   );
 }
 
-/* ---------- Reusable Icon Button ---------- */
 function IconButton({
   children,
   onClick,
@@ -195,13 +226,10 @@ function IconButton({
     >
       {children}
       {badge && badge > 0 && (
-        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary  text-xs flex items-center justify-center">
+        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-xs flex items-center justify-center">
           {badge}
         </span>
       )}
     </button>
   );
 }
-
-
-
