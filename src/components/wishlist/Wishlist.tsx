@@ -18,13 +18,10 @@ export function Wishlist() {
 
   return (
     <>
-      {/* Overlay */}
       <div
         className="fixed inset-0 bg-black/50 z-50"
         onClick={closeWishlist}
       />
-
-      {/* Drawer */}
       <div className="fixed right-0 top-0 h-full w-full md:w-[400px] lg:w-[25%] min-w-[320px] bg-white shadow-xl z-50 animate-slide-in-right flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -67,7 +64,7 @@ export function Wishlist() {
               {items.map((item) => (
                 <div
                   key={item.product.id}
-                  className="flex gap-3 p-3 rounded-lg"
+                  className="flex gap-3 p-2 rounded-lg"
                 >
                   <Link
                     to={`/product/${item.product.id}`}
@@ -77,7 +74,7 @@ export function Wishlist() {
                     <img
                       src={item.product.images[0]}
                       alt={item.product.name}
-                      className="w-20 h-20 object-cover rounded-md"
+                      className="w-24 h-24 object-cover rounded-md"
                     />
                   </Link>
 
@@ -93,18 +90,17 @@ export function Wishlist() {
 
                     <div className="flex items-center gap-2 mt-1">
                       <span className=" font-semibold text-sm">
-                        ₹{item.product.price.toLocaleString()}
+                        NPR {item.product.price.toLocaleString()}
                       </span>
                       <span className="text-xs line-through">
-                        ₹{item.product.originalPrice.toLocaleString()}
+                        NPR {item.product.originalPrice.toLocaleString()}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-2 mt-3">
-                      {/* Add to cart */}
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-md border border-border px-3 py-1.5 "
+                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-md border-2 border-yellow-500 px-3 py-1 "
                       >
                         <ShoppingBag className="h-3 w-3" />
                         Add to Cart
@@ -116,7 +112,7 @@ export function Wishlist() {
                         className="h-8 w-8 flex items-center justify-center rounded-md text-red hover:bg-red/10"
                         aria-label="Remove from wishlist"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-5 w-5 hover:text-red-500" />
                       </button>
                     </div>
                   </div>

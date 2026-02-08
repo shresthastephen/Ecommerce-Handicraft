@@ -23,7 +23,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<WishlistItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Load wishlist from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem(WISHLIST_STORAGE_KEY);
     if (stored) {
@@ -35,7 +34,6 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Save wishlist to localStorage on change
   useEffect(() => {
     localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
   }, [items]);

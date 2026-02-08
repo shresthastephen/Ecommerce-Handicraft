@@ -10,6 +10,7 @@ import { Cart } from "./components/cart/Cart";
 import { Wishlist } from "./components/wishlist/Wishlist";
 import Index from "./pages/Index";
 import Shops from "./pages/Shops";
+import Details from "./pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/shops" element={<Shops />} />
+            <Route path="/product/:productId" element={<Details />} />
           </Routes>
           <Footer />
           <Wishlist />
@@ -31,3 +33,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+

@@ -23,7 +23,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Load cart from localStorage on mount
+  
   useEffect(() => {
     const stored = localStorage.getItem(CART_STORAGE_KEY);
     if (stored) {
@@ -35,7 +35,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Save cart to localStorage on change
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);

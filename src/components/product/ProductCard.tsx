@@ -3,7 +3,6 @@ import { Heart } from "lucide-react";
 import type { Product } from "../../types/product";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../libs/utils";
-import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -17,13 +16,12 @@ export function ProductCard({ product }: ProductCardProps) {
     ((product.originalPrice - product.price) / product.originalPrice) * 100
   );
 
-  const handleWishlistClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleWishlistClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();   // prevents Link navigation
+    e.stopPropagation();  // prevents bubbling
     toggleItem(product);
-    toast.success(
-      isWishlisted ? "Removed from wishlist" : "Added to wishlist"
-    );
   };
 
   return (
@@ -31,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
       to={`/product/${product.id}`}
       className="group block bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
     >
-      {/* Image Container */}
+      {/* Image */}
       <div className="relative aspect-square overflow-hidden bg-muted">
         <img
           src={product.images[0]}
@@ -48,21 +46,27 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Wishlist Button */}
         <button
+          type="button"
           onClick={handleWishlistClick}
           className={cn(
             "absolute top-3 right-3 p-2 rounded-full transition-all duration-300",
             isWishlisted
-              ? "bg-primary text-primary-foreground"
-              : "bg-white/80 text-foreground hover:bg-primary hover:text-primary-foreground"
+              ? "bg-yellow-500 text-white"
+              : "bg-white/80 text-black hover:bg-yellow-500 hover:text-white"
           )}
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={
+            isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+          }
         >
           <Heart
-            className={cn("h-4 w-4", isWishlisted && "fill-current")}
+            className={cn(
+              "h-4 w-4 transition-transform",
+              isWishlisted && "fill-current scale-110"
+            )}
           />
         </button>
 
-        {/* Quick View Overlay */}
+        {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
       </div>
 
@@ -71,16 +75,21 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="font-medium text-foreground truncate group-hover:text-yellow-500 transition-colors">
           {product.name}
         </h3>
+
         <p className="text-xs text-muted-foreground mt-1 capitalize">
           {product.material}
         </p>
+
         <div className="flex items-center gap-2 mt-2">
           <span className="text-lg font-semibold text-yellow-500">
             NPR {product.price.toLocaleString()}
           </span>
-          <span className="text-sm text-muted-foreground line-through">
-            NPR {product.originalPrice.toLocaleString()}
-          </span>
+
+          {product.originalPrice > product.price && (
+            <span className="text-sm text-muted-foreground line-through">
+              NPR {product.originalPrice.toLocaleString()}
+            </span>
+          )}
         </div>
       </div>
     </Link>

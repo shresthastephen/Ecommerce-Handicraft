@@ -30,6 +30,7 @@ export interface CategoryInfo {
 }
 
 export interface CartItem {
+  id: string;
   product: Product;
   quantity: number;
 }

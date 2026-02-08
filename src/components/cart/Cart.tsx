@@ -64,7 +64,7 @@ export function Cart() {
               {items.map((item) => (
                 <div
                   key={item.product.id}
-                  className="flex gap-3 p-3  rounded-lg"
+                  className="flex gap-3 p-2 rounded-lg"
                 >
                   <Link
                     to={`/product/${item.product.id}`}
@@ -74,7 +74,7 @@ export function Cart() {
                     <img
                       src={item.product.images[0]}
                       alt={item.product.name}
-                      className="w-20 h-20 object-cover rounded-md"
+                      className="w-24 h-24 object-cover rounded-md"
                     />
                   </Link>
 
@@ -83,13 +83,13 @@ export function Cart() {
                       to={`/product/${item.product.id}`}
                       onClick={closeCart}
                     >
-                      <h4 className="font-medium text-sm truncate ">
+                      <h4 className="font-medium text-m truncate ">
                         {item.product.name}
                       </h4>
                     </Link>
 
                     <p className=" font-semibold text-sm mt-1">
-                      ₹{item.product.price.toLocaleString()}
+                      NPR {item.product.price.toLocaleString()}
                     </p>
 
                     <div className="flex items-center gap-2 mt-2">
@@ -102,9 +102,9 @@ export function Cart() {
                               item.quantity - 1
                             )
                           }
-                          className="h-7 w-7 flex items-center justify-center rounded-l-md"
+                          className="h-10 w-10 flex items-center justify-center rounded-l-md"
                         >
-                          <Minus className="h-3 w-3" />
+                          <Minus className="h-5 w-5" />
                         </button>
 
                         <span className="w-8 text-center text-sm">
@@ -118,9 +118,9 @@ export function Cart() {
                               item.quantity + 1
                             )
                           }
-                          className="h-7 w-7 flex items-center justify-center rounded-r-md "
+                          className="h-10 w-10 flex items-center justify-center rounded-r-md "
                         >
-                          <Plus className="h-3 w-3" />
+                          <Plus className="h-5 w-5" />
                         </button>
                       </div>
 
@@ -130,7 +130,7 @@ export function Cart() {
                         className="h-7 w-7 flex items-center justify-center rounded-md text-red hover:bg-red/10"
                         aria-label="Remove item"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-5 w-5 hover:text-red-500" />
                       </button>
                     </div>
                   </div>
@@ -142,11 +142,11 @@ export function Cart() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-border p-4 space-y-4">
+          <div className="border-t border-yellow-500 p-4 space-y-4">
             <div className="flex items-center justify-between text-lg font-semibold">
               <span>Subtotal</span>
-              <span className="text-primary">
-                NPR{subtotal.toLocaleString()}
+              <span className="text-yellow-500">
+                NPR {subtotal.toLocaleString()}
               </span>
             </div>
 
@@ -156,7 +156,7 @@ export function Cart() {
 
             <button
               onClick={closeCart}
-              className="w-full rounded-md  px-4 py-3 text-lg font-medium"
+              className="w-full rounded-md  p-2 text-lg font-medium border-2 border-yellow-500 hover:bg-yellow-500 "
             >
               Continue Shopping
             </button>

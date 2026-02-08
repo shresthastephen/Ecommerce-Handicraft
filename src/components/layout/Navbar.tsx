@@ -226,7 +226,7 @@ function IconButton({
     >
       {children}
       {badge && badge > 0 && (
-        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-xs flex items-center justify-center">
+        <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-yellow-500 text-xs flex items-center justify-center">
           {badge}
         </span>
       )}
