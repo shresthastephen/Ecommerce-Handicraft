@@ -8,7 +8,6 @@ import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
 import { cn } from "../libs/utils";
 
-
 function UIButton({
   children,
   className = "",
@@ -50,8 +49,6 @@ function UISkeleton({ className = "" }: { className?: string }) {
   return <div className={cn("animate-pulse rounded-md bg-muted", className)} />;
 }
 
-
-
 export default function ProductDetail() {
   const { productId } = useParams<{ productId: string }>();
   const [quantity, setQuantity] = useState(1);
@@ -63,7 +60,6 @@ export default function ProductDetail() {
 
   const product = products.find((p) => p.id === productId);
   const isWishlisted = product ? isInWishlist(product.id) : false;
-
 
   const category = product
     ? categories.find((c) => c.id === product.category)
@@ -109,7 +105,7 @@ export default function ProductDetail() {
   }
 
   const discount = Math.round(
-    ((product.originalPrice - product.price) / product.originalPrice) * 100
+    ((product.originalPrice - product.price) / product.originalPrice) * 100,
   );
 
   return (
@@ -117,22 +113,15 @@ export default function ProductDetail() {
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
-          <Link to="/" className="hover:text-primary">
+          <Link to="/">
             Home
           </Link>
           <ChevronRight className="h-4 w-4" />
-          <Link to="/shops" className="hover:text-primary">
-            Shops
-          </Link>
+          <Link to="/shops">Shops</Link>
           {category && (
             <>
               <ChevronRight className="h-4 w-4" />
-              <Link
-                to={`/category/${category.id}`}
-                className="hover:text-primary"
-              >
-                {category.name}
-              </Link>
+              <Link to={`/category/${category.id}`}>{category.name}</Link>
             </>
           )}
           <ChevronRight className="h-4 w-4" />
@@ -159,7 +148,7 @@ export default function ProductDetail() {
           </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* Image Gallery */}
+            {/* img */}
             <div className="space-y-4">
               <div className="aspect-square rounded-lg overflow-hidden bg-muted">
                 <img
@@ -178,7 +167,7 @@ export default function ProductDetail() {
                         "w-20 h-20 rounded-md overflow-hidden border-2 transition-colors",
                         activeImage === index
                           ? "border-primary"
-                          : "border-transparent hover:border-border"
+                          : "border-transparent hover:border-border",
                       )}
                     >
                       <img
@@ -192,7 +181,7 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Product Info */}
+            {/* product-info */}
             <div>
               <h1 className="text-2xl md:text-3xl font-serif font-semibold mb-2">
                 {product.name}
@@ -201,13 +190,13 @@ export default function ProductDetail() {
                 {product.material} • {category?.name}
               </p>
 
-              {/* Price */}
+              {/* price*/}
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-2xl font-bold text-black">
-                  ₹{product.price.toLocaleString()}
+                  NPR {product.price.toLocaleString()}
                 </span>
                 <span className="text-lg text-muted-foreground line-through">
-                  ₹{product.originalPrice.toLocaleString()}
+                  NPR {product.originalPrice.toLocaleString()}
                 </span>
                 {discount > 0 && (
                   <span className="px-2 py-1 text-xs font-semibold bg-gold-gradient text-black rounded">
@@ -220,15 +209,13 @@ export default function ProductDetail() {
                 {product.description}
               </p>
 
-              {/* Details */}
+              {/* product-details */}
               <div className="grid grid-cols-2 gap-4 mb-6 p-4  rounded-lg">
                 <div>
                   <span className="text-xs text-muted-foreground">
                     Dimensions
                   </span>
-                  <p className="text-sm font-medium">
-                    {product.dimensions}
-                  </p>
+                  <p className="text-sm font-medium">{product.dimensions}</p>
                 </div>
                 <div>
                   <span className="text-xs text-muted-foreground">Weight</span>
@@ -238,9 +225,7 @@ export default function ProductDetail() {
                   <span className="text-xs text-muted-foreground">
                     Material
                   </span>
-                  <p className="text-sm font-medium">
-                    {product.material}
-                  </p>
+                  <p className="text-sm font-medium">{product.material}</p>
                 </div>
                 <div>
                   <span className="text-xs text-muted-foreground">
@@ -252,16 +237,14 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Quantity */}
+              {/* qty */}
               <div className="flex items-center gap-4 mb-6">
                 <span className="text-sm font-medium">Quantity:</span>
                 <div className="flex items-center border border-border rounded-md">
                   <UIButton
                     variant="ghost"
                     size="icon"
-                    onClick={() =>
-                      setQuantity((q) => Math.max(1, q - 1))
-                    }
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     disabled={quantity <= 1}
                   >
                     <Minus className="h-4 w-4" />
@@ -277,19 +260,17 @@ export default function ProductDetail() {
                 </div>
               </div>
 
-              {/* Actions */}
+              {/* action btns */}
               <div className="flex gap-3">
-
-                <UIButton 
-                variant="outline"
-                size="lg"
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-                className=" gap-2 border-2 border-yellow-500"
-              >
-                <ShoppingBag className="h-5 w-5" />
-                Add to Cart
-
+                <UIButton
+                  variant="outline"
+                  size="lg"
+                  onClick={handleAddToCart}
+                  disabled={!product.inStock}
+                  className=" gap-2 border-2 border-yellow-500"
+                >
+                  <ShoppingBag className="h-5 w-5" />
+                  Add to Cart
                 </UIButton>
 
                 <UIButton
@@ -298,26 +279,22 @@ export default function ProductDetail() {
                   onClick={handleWishlistToggle}
                   className={cn(
                     "gap-2 border-2 border-yellow-500",
-                    // isWishlisted && "text-black  "
+                    isWishlisted && "text-black"
                   )}
                 >
-                  {/* <Heart
+                  <Heart
                     className={cn(
                       "h-5 w-5",
-                      isWishlisted && "fill-current"
+                      isWishlisted && "fill-current text-yellow-500"
                     )}
                   />
-                  {isWishlisted ? "Saved" : "Save"} */}
-
-                  <Heart className="h-5 w-5"/>
-                  Save
+                  {isWishlisted ? "Saved" : "Save"}
                 </UIButton>
               </div>
             </div>
           </div>
         )}
 
-        {/* Related */}
         {relatedProducts.length > 0 && (
           <section className="mt-16">
             <h2 className="text-xl md:text-2xl font-serif font-semibold mb-6">

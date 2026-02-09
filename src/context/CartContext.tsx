@@ -23,13 +23,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  
+  // cart form localStorage
   useEffect(() => {
     const stored = localStorage.getItem(CART_STORAGE_KEY);
     if (stored) {
       try {
         setItems(JSON.parse(stored));
-      } catch (e) {
+      } catch {
         console.error("Failed to parse cart from localStorage");
       }
     }
@@ -41,7 +41,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addItem = (product: Product) => {
     setItems((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
+      const existing = prev.find(
+        (item) => item.product.id === product.id
+      );
+
       if (existing) {
         return prev.map((item) =>
           item.product.id === product.id
@@ -49,13 +52,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-      return [...prev, { product, quantity: 1 }];
+
+      return [
+        ...prev,
+        {
+          id: product.id,
+          product,
+          quantity: 1,
+        },
+      ];
     });
+
     setIsOpen(true);
   };
 
   const removeItem = (productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+    setItems((prev) =>
+      prev.filter((item) => item.product.id !== productId)
+    );
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
@@ -63,18 +77,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem(productId);
       return;
     }
+
     setItems((prev) =>
       prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
+        item.product.id === productId
+          ? { ...item, quantity } 
+          : item
       )
     );
   };
 
   const clearCart = () => setItems([]);
+
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalItems = items.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+
   const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
