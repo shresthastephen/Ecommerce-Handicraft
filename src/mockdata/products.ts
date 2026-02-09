@@ -39,7 +39,8 @@ export const categoryImages = {
 
 export const productImages = {
   ganesh: [
-    ganesh
+    ganesh,
+    shiva
   ],
   buddha: [
     buddha
@@ -63,33 +64,32 @@ export const categories: CategoryInfo[] = [
   {
     id: "ganesh",
     name: "Ganesh",
-    description: "Lord of Beginnings and Remover of Obstacles",
     image: categoryImages.ganesh.square,
   },
   {
     id: "buddha",
     name: "Buddha",
-    description: "The Enlightened One",
+    // description: "The Enlightened One",
     image: categoryImages.buddha.square,
   },
   {
     id: "shiva",
     name: "Shiva",
-    description: "The Destroyer and Transformer",
+    // description: "The Destroyer and Transformer",
     image: categoryImages.shiva.square,
   },
   
   {
     id: "laxmi",
     name: "Laxmi",
-    description: "Goddess of Wealth and Prosperity",
+    // description: "Goddess of Wealth and Prosperity",
     image: categoryImages.laxmi.square,
   },
  
   {
     id: "saraswati",
     name: "Saraswati",
-    description: "Goddess of Knowledge and Arts",
+    // description: "Goddess of Knowledge and Arts",
     image: categoryImages.saraswati.square,
   },
 ];

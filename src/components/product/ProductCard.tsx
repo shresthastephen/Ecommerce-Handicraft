@@ -34,7 +34,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.images[0]}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover  transition-transform duration-500 group-hover:scale-110"
         />
 
         {/* Discount Badge */}

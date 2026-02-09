@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
 import { products, categories } from "../mockdata/products";
-import { ProductCard } from "../components/product/ProductCard";
+// import { ProductCard } from "../components/product/ProductCard";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
@@ -65,11 +65,11 @@ export default function ProductDetail() {
     ? categories.find((c) => c.id === product.category)
     : null;
 
-  const relatedProducts = product
-    ? products
-        .filter((p) => p.category === product.category && p.id !== product.id)
-        .slice(0, 4)
-    : [];
+  // const relatedProducts = product
+  //   ? products
+  //       .filter((p) => p.category === product.category && p.id !== product.id)
+  //       .slice(0, 4)
+  //   : [];
 
   useEffect(() => {
     setIsLoading(true);
@@ -109,20 +109,19 @@ export default function ProductDetail() {
   );
 
   return (
-    <main className="min-h-screen py-8">
+    <main className="mb-4 py-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
-          <Link to="/">
-            Home
-          </Link>
+        <nav className="flex items-center gap-2 text-base text-muted-foreground mb-6 flex-wrap">
+          <Link to="/">Home</Link>
           <ChevronRight className="h-4 w-4" />
           <Link to="/shops">Shops</Link>
           {category && (
             <>
               <ChevronRight className="h-4 w-4" />
-              {/* <Link to={`/category/${category.id}`}>{category.name}</Link> */}
               <Link to={`/shops?category=${category.id}`}>{category.name}</Link>
+
+              
             </>
           )}
           <ChevronRight className="h-4 w-4" />
@@ -158,36 +157,14 @@ export default function ProductDetail() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              {product.images.length > 1 && (
-                <div className="flex gap-2">
-                  {product.images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setActiveImage(index)}
-                      className={cn(
-                        "w-20 h-20 rounded-md overflow-hidden border-2 transition-colors",
-                        activeImage === index
-                          ? "border-primary"
-                          : "border-transparent hover:border-border",
-                      )}
-                    >
-                      <img
-                        src={image}
-                        alt={`${product.name} view ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* product-info */}
             <div>
-              <h1 className="text-2xl md:text-3xl font-serif font-semibold mb-2">
+              <h1 className="text-2xl md:text-4xl font-sans mb-2">
                 {product.name}
               </h1>
-              <p className="text-sm text-muted-foreground capitalize mb-4">
+              <p className="text-base text-muted-foreground capitalize mb-4">
                 {product.material} • {category?.name}
               </p>
 
@@ -200,7 +177,7 @@ export default function ProductDetail() {
                   NPR {product.originalPrice.toLocaleString()}
                 </span>
                 {discount > 0 && (
-                  <span className="px-2 py-1 text-xs font-semibold bg-gold-gradient text-black rounded">
+                  <span className="px-2 py-1 text-sm font-semibold bg-gold-gradient text-black rounded">
                     Save {discount}%
                   </span>
                 )}
@@ -213,26 +190,28 @@ export default function ProductDetail() {
               {/* product-details */}
               <div className="grid grid-cols-2 gap-4 mb-6 p-4  rounded-lg">
                 <div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-base text-muted-foreground">
                     Dimensions
                   </span>
-                  <p className="text-sm font-medium">{product.dimensions}</p>
+                  <p className="text-lg font-medium">{product.dimensions}</p>
                 </div>
                 <div>
-                  <span className="text-xs text-muted-foreground">Weight</span>
-                  <p className="text-sm font-medium">{product.weight}</p>
+                  <span className="text-base text-muted-foreground">
+                    Weight
+                  </span>
+                  <p className="text-lg font-medium">{product.weight}</p>
                 </div>
                 <div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-base text-muted-foreground">
                     Material
                   </span>
-                  <p className="text-sm font-medium">{product.material}</p>
+                  <p className="text-lg font-medium">{product.material}</p>
                 </div>
                 <div>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-base text-muted-foreground">
                     Availability
                   </span>
-                  <p className="text-sm font-medium">
+                  <p className="text-lg font-medium">
                     {product.inStock ? "In Stock" : "Out of Stock"}
                   </p>
                 </div>
@@ -240,17 +219,19 @@ export default function ProductDetail() {
 
               {/* qty */}
               <div className="flex items-center gap-4 mb-6">
-                <span className="text-sm font-medium">Quantity:</span>
-                <div className="flex items-center border border-border rounded-md">
+                <span className="text-base font-medium">Quantity:</span>
+                <div className="flex items-center border-2 border-grey rounded-md">
                   <UIButton
                     variant="ghost"
                     size="icon"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     disabled={quantity <= 1}
                   >
-                    <Minus className="h-4 w-4" />
+                    <Minus className="h-4 w-4 " />
                   </UIButton>
+
                   <span className="w-12 text-center">{quantity}</span>
+
                   <UIButton
                     variant="ghost"
                     size="icon"
@@ -280,33 +261,48 @@ export default function ProductDetail() {
                   onClick={handleWishlistToggle}
                   className={cn(
                     "gap-2 border-2 border-yellow-500",
-                    isWishlisted && "text-black"
+                    isWishlisted && "text-black",
                   )}
                 >
                   <Heart
                     className={cn(
                       "h-5 w-5",
-                      isWishlisted && "fill-current text-yellow-500"
+                      isWishlisted && "fill-current text-yellow-500",
                     )}
                   />
                   {isWishlisted ? "Saved" : "Save"}
                 </UIButton>
               </div>
+
+              <section className="mt-8">
+                <h2 className="text-xl md:text-2xl font-semibold mb-4">
+                  Related Products
+                </h2>
+                {product.images.length > 1 && (
+                  <div className="flex gap-2">
+                    {product.images.map((image, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveImage(index)}
+                        className={cn(
+                          "w-24 h-24 rounded-md overflow-hidden border-2 transition-colors",
+                          activeImage === index
+                            ? "border-yellow-500"
+                            : "border-transparent hover:border-border",
+                        )}
+                      >
+                        <img
+                          src={image}
+                          alt={`${product.name} view ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </section>
             </div>
           </div>
-        )}
-
-        {relatedProducts.length > 0 && (
-          <section className="mt-16">
-            <h2 className="text-xl md:text-2xl font-serif font-semibold mb-6">
-              Related Products
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-              {relatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
         )}
       </div>
     </main>

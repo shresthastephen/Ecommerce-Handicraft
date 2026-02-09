@@ -25,7 +25,7 @@ export type Category =
 export interface CategoryInfo {
   id: Category;
   name: string;
-  description: string;
+  // description: string;
   image: string;
 }
 
