@@ -114,7 +114,7 @@ export function Navbar() {
                   {sortedCategories.map((cat) => (
                     <Link
                       key={cat.id}
-                      to={`/category/${cat.id}`}
+                      to={`/shops?category=${cat.id}`}
                       onClick={() => setIsCategoryOpen(false)}
                       className="block px-4 py-2 text-sm hover:bg-muted transition"
                     >
@@ -126,6 +126,9 @@ export function Navbar() {
             </div>
           </div>
 
+
+
+          {/* seach */}
         
           <form
             onSubmit={handleSearch}
@@ -194,7 +197,8 @@ export function Navbar() {
                 {sortedCategories.map((cat) => (
                   <Link
                     key={cat.id}
-                    to={`/category/${cat.id}`}
+                    // to={`/category/${cat.id}`}
+                     to={`/shops?category=${cat.id}`}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="mobile-link"
                   >

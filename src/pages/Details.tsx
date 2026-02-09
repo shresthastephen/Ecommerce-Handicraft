@@ -121,7 +121,8 @@ export default function ProductDetail() {
           {category && (
             <>
               <ChevronRight className="h-4 w-4" />
-              <Link to={`/category/${category.id}`}>{category.name}</Link>
+              {/* <Link to={`/category/${category.id}`}>{category.name}</Link> */}
+              <Link to={`/shops?category=${category.id}`}>{category.name}</Link>
             </>
           )}
           <ChevronRight className="h-4 w-4" />

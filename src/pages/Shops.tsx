@@ -25,6 +25,9 @@ function extractWeight(weight: string): number {
 export default function Shops() {
   const [searchParams] = useSearchParams();
 
+  const categoryParam = searchParams.get("category");
+
+
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const initialSearch = searchParams.get("search") || "";
 
@@ -66,6 +69,10 @@ export default function Shops() {
     } else if (activeFilter === "new") {
       result = result.filter((p) => p.isNewArrival);
     }
+
+    if (categoryParam) {
+    result = result.filter((p) => p.category === categoryParam);
+  }
 
     // search
     if (searchQuery.trim()) {
@@ -110,6 +117,7 @@ export default function Shops() {
     sizeRange,
     weightRange,
     sortOrder,
+    categoryParam,
   ]);
 
   return (
