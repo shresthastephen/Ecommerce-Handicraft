@@ -1,28 +1,34 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
 import { productImages } from "../mockdata/products";
 
-export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+export const useProduct = (productId?: string) => {
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/products")
-      .then(res => res.json())
-      .then(data => {
-        // attach frontend images to products
-        const mapped = data.map((p: Product) => ({
-          ...p,
-          images: productImages[p.category] || [],
-        }));
-        setProducts(mapped);
+    if (!productId) return;
+
+    setLoading(true);
+
+    fetch(`http://localhost:8000/api/products/${productId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then((data) => {
+        setProduct({
+          ...data,
+          images:
+            productImages[data.category as keyof typeof productImages] || [],
+        });
         setLoading(false);
       })
-      .catch(err => {
-        console.error("Failed to fetch products:", err);
+      .catch(() => {
+        setProduct(null);
         setLoading(false);
       });
-  }, []);
+  }, [productId]);
 
-  return { products, loading };
+  return { product, loading };
 };

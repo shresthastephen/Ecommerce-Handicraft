@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
-import { productImages, categories } from "../mockdata/products"; // keep frontend images
+// import { productImages} from "../mockdata/products"; 
+import { useCategories } from "../hooks/useCategories";
+import { useProduct } from "../hooks/useProducts";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
@@ -49,41 +51,25 @@ function UISkeleton({ className = "" }: { className?: string }) {
 }
 
 export default function ProductDetail() {
-  const { productId } = useParams<{ productId: string }>();
-  const [product, setProduct] = useState<any>(null);
+  // const { productId } = useParams<{ productId: string }>();
+
+  // const [product, setProduct] = useState<any>(null);
+
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+
 
   const { addItem: addToCart } = useCart();
   const { isInWishlist, toggleItem } = useWishlist();
 
   // fetch product from API
-  useEffect(() => {
-    if (!productId) return;
+  const { productId } = useParams();
+  const { product,loading} = useProduct(productId);
 
-    setIsLoading(true);
-    setQuantity(1);
-    setActiveImage(0);
 
-    fetch(`http://localhost:8000/api/products/${productId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Product not found");
-        return res.json();
-      })
-      .then((data) => {
-        // attach frontend images
-        setProduct({
-          ...data,
-          images: productImages[data.category as keyof typeof productImages] || [],
-        });
-        setIsLoading(false);
-      })
-      .catch(() => {
-        setProduct(null);
-        setIsLoading(false);
-      });
-  }, [productId]);
+  // fetch categories from hooks
+  const { categories } = useCategories();
+
 
   const isWishlisted = product ? isInWishlist(product.id) : false;
 
@@ -105,7 +91,7 @@ export default function ProductDetail() {
     toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
 
-  if (!product && !isLoading) {
+  if (!product && !loading) {
     return (
       <main className="min-h-screen py-16 text-center">
         <h1 className="text-2xl font-semibold mb-4">Product not found</h1>
@@ -140,7 +126,7 @@ export default function ProductDetail() {
           <span className="text-foreground truncate">{product?.name}</span>
         </nav>
 
-        {isLoading ? (
+        {loading ? (
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <UISkeleton className="aspect-square w-full rounded-lg" />
