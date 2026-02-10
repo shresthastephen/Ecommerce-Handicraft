@@ -143,7 +143,7 @@ export default function Shops() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-md border border-gray-500 bg-white pl-10 pr-3 py-2 text-sm outline-none focus:ring-1 focus:ring-yellow-500"
+                className="w-full rounded-md border border-black bg-white pl-10 pr-3 py-2 text-sm outline-none focus:ring-1 focus:ring-yellow-500"
               />
             </div>
           </div>

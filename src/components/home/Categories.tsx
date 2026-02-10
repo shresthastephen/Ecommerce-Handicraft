@@ -12,7 +12,7 @@ export function Categories() {
           {categories.map((category) => (
             <Link
               key={category.id}
-              to={`/category/${category.id}`}
+              to={`/shops?category=${category.id}`}
               className="group flex flex-col items-center"
             >
               <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-border hover:border-yellow-500 transition-all duration-300 group-hover:scale-105">

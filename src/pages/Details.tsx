@@ -276,7 +276,7 @@ export default function ProductDetail() {
 
               <section className="mt-8">
                 <h2 className="text-xl md:text-2xl font-semibold mb-4">
-                  Related Products
+                  Related Images
                 </h2>
                 {product.images.length > 1 && (
                   <div className="flex gap-2">

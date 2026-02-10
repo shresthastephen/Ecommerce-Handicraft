@@ -141,7 +141,7 @@ export function Navbar() {
                 placeholder="Search for statues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border border-gray-300 outline-none
+                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border border-black outline-none
                   focus:ring-1 focus:ring-yellow-500"
               />
             </div>
