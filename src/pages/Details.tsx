@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
-import { products, categories } from "../mockdata/products";
-// import { ProductCard } from "../components/product/ProductCard";
+import { productImages, categories } from "../mockdata/products"; // keep frontend images
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
@@ -51,6 +50,7 @@ function UISkeleton({ className = "" }: { className?: string }) {
 
 export default function ProductDetail() {
   const { productId } = useParams<{ productId: string }>();
+  const [product, setProduct] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,26 +58,38 @@ export default function ProductDetail() {
   const { addItem: addToCart } = useCart();
   const { isInWishlist, toggleItem } = useWishlist();
 
-  const product = products.find((p) => p.id === productId);
+  // fetch product from API
+  useEffect(() => {
+    if (!productId) return;
+
+    setIsLoading(true);
+    setQuantity(1);
+    setActiveImage(0);
+
+    fetch(`http://localhost:8000/api/products/${productId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Product not found");
+        return res.json();
+      })
+      .then((data) => {
+        // attach frontend images
+        setProduct({
+          ...data,
+          images: productImages[data.category as keyof typeof productImages] || [],
+        });
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setProduct(null);
+        setIsLoading(false);
+      });
+  }, [productId]);
+
   const isWishlisted = product ? isInWishlist(product.id) : false;
 
   const category = product
     ? categories.find((c) => c.id === product.category)
     : null;
-
-  // const relatedProducts = product
-  //   ? products
-  //       .filter((p) => p.category === product.category && p.id !== product.id)
-  //       .slice(0, 4)
-  //   : [];
-
-  useEffect(() => {
-    setIsLoading(true);
-    setQuantity(1);
-    setActiveImage(0);
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, [productId]);
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -93,20 +105,22 @@ export default function ProductDetail() {
     toast.success(isWishlisted ? "Removed from wishlist" : "Added to wishlist");
   };
 
-  if (!product) {
+  if (!product && !isLoading) {
     return (
       <main className="min-h-screen py-16 text-center">
         <h1 className="text-2xl font-semibold mb-4">Product not found</h1>
-        <Link to="/shops" className="text-primary hover:underline">
+        <Link to="/shops" className="text-black hover:underline">
           Browse all products
         </Link>
       </main>
     );
   }
 
-  const discount = Math.round(
-    ((product.originalPrice - product.price) / product.originalPrice) * 100,
-  );
+  const discount = product
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100
+      )
+    : 0;
 
   return (
     <main className="mb-4 py-8">
@@ -120,12 +134,10 @@ export default function ProductDetail() {
             <>
               <ChevronRight className="h-4 w-4" />
               <Link to={`/shops?category=${category.id}`}>{category.name}</Link>
-
-              
             </>
           )}
           <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground truncate">{product.name}</span>
+          <span className="text-foreground truncate">{product?.name}</span>
         </nav>
 
         {isLoading ? (
@@ -147,162 +159,151 @@ export default function ProductDetail() {
             </div>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* img */}
-            <div className="space-y-4">
-              <div className="aspect-square rounded-lg overflow-hidden bg-muted">
-                <img
-                  src={product.images[activeImage]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            {/* product-info */}
-            <div>
-              <h1 className="text-2xl md:text-4xl font-sans mb-2">
-                {product.name}
-              </h1>
-              <p className="text-base text-muted-foreground capitalize mb-4">
-                {product.material} • {category?.name}
-              </p>
-
-              {/* price*/}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-2xl font-bold text-black">
-                  NPR {product.price.toLocaleString()}
-                </span>
-                <span className="text-lg text-muted-foreground line-through">
-                  NPR {product.originalPrice.toLocaleString()}
-                </span>
-                {discount > 0 && (
-                  <span className="px-2 py-1 text-sm font-semibold bg-gold-gradient text-black rounded">
-                    Save {discount}%
-                  </span>
-                )}
-              </div>
-
-              <p className="text-muted-foreground mb-6">
-                {product.description}
-              </p>
-
-              {/* product-details */}
-              <div className="grid grid-cols-2 gap-4 mb-6 p-4  rounded-lg">
-                <div>
-                  <span className="text-base text-muted-foreground">
-                    Dimensions
-                  </span>
-                  <p className="text-lg font-medium">{product.dimensions}</p>
-                </div>
-                <div>
-                  <span className="text-base text-muted-foreground">
-                    Weight
-                  </span>
-                  <p className="text-lg font-medium">{product.weight}</p>
-                </div>
-                <div>
-                  <span className="text-base text-muted-foreground">
-                    Material
-                  </span>
-                  <p className="text-lg font-medium">{product.material}</p>
-                </div>
-                <div>
-                  <span className="text-base text-muted-foreground">
-                    Availability
-                  </span>
-                  <p className="text-lg font-medium">
-                    {product.inStock ? "In Stock" : "Out of Stock"}
-                  </p>
-                </div>
-              </div>
-
-              {/* qty */}
-              <div className="flex items-center gap-4 mb-6">
-                <span className="text-base font-medium">Quantity:</span>
-                <div className="flex items-center border-2 border-grey rounded-md">
-                  <UIButton
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    disabled={quantity <= 1}
-                  >
-                    <Minus className="h-4 w-4 " />
-                  </UIButton>
-
-                  <span className="w-12 text-center">{quantity}</span>
-
-                  <UIButton
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setQuantity((q) => q + 1)}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </UIButton>
-                </div>
-              </div>
-
-              {/* action btns */}
-              <div className="flex gap-3">
-                <UIButton
-                  variant="outline"
-                  size="lg"
-                  onClick={handleAddToCart}
-                  disabled={!product.inStock}
-                  className=" gap-2 border-2 border-yellow-500"
-                >
-                  <ShoppingBag className="h-5 w-5" />
-                  Add to Cart
-                </UIButton>
-
-                <UIButton
-                  variant="outline"
-                  size="lg"
-                  onClick={handleWishlistToggle}
-                  className={cn(
-                    "gap-2 border-2 border-yellow-500",
-                    isWishlisted && "text-black",
-                  )}
-                >
-                  <Heart
-                    className={cn(
-                      "h-5 w-5",
-                      isWishlisted && "fill-current text-yellow-500",
-                    )}
+          product && (
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              {/* Image */}
+              <div className="space-y-4">
+                <div className="aspect-square rounded-lg overflow-hidden bg-muted">
+                  <img
+                    src={product.images[activeImage]}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
                   />
-                  {isWishlisted ? "Saved" : "Save"}
-                </UIButton>
+                </div>
               </div>
 
-              <section className="mt-8">
-                <h2 className="text-xl md:text-2xl font-semibold mb-4">
-                  Related Images
-                </h2>
-                {product.images.length > 1 && (
-                  <div className="flex gap-2">
-                    {product.images.map((image, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setActiveImage(index)}
-                        className={cn(
-                          "w-24 h-24 rounded-md overflow-hidden border-2 transition-colors",
-                          activeImage === index
-                            ? "border-yellow-500"
-                            : "border-transparent hover:border-border",
-                        )}
-                      >
-                        <img
-                          src={image}
-                          alt={`${product.name} view ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                      </button>
-                    ))}
+              {/* Product info */}
+              <div>
+                <h1 className="text-2xl md:text-4xl font-sans mb-2">{product.name}</h1>
+                <p className="text-base text-muted-foreground capitalize mb-4">
+                  {product.material} • {category?.name}
+                </p>
+
+                {/* Price */}
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="text-2xl font-bold text-black">
+                    NPR {product.price.toLocaleString()}
+                  </span>
+                  <span className="text-lg text-muted-foreground line-through">
+                    NPR {product.originalPrice.toLocaleString()}
+                  </span>
+                  {discount > 0 && (
+                    <span className="px-2 py-1 text-sm font-semibold bg-gold-gradient text-black rounded">
+                      Save {discount}%
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-muted-foreground mb-6">{product.description}</p>
+
+                {/* Product details */}
+                <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-lg">
+                  <div>
+                    <span className="text-base text-muted-foreground">Dimensions</span>
+                    <p className="text-lg font-medium">{product.dimensions}</p>
                   </div>
-                )}
-              </section>
+                  <div>
+                    <span className="text-base text-muted-foreground">Weight</span>
+                    <p className="text-lg font-medium">{product.weight}</p>
+                  </div>
+                  <div>
+                    <span className="text-base text-muted-foreground">Material</span>
+                    <p className="text-lg font-medium">{product.material}</p>
+                  </div>
+                  <div>
+                    <span className="text-base text-muted-foreground">Availability</span>
+                    <p className="text-lg font-medium">
+                      {product.inStock ? "In Stock" : "Out of Stock"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quantity */}
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-base font-medium">Quantity:</span>
+                  <div className="flex items-center border-2 border-grey rounded-md">
+                    <UIButton
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </UIButton>
+
+                    <span className="w-12 text-center">{quantity}</span>
+
+                    <UIButton
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setQuantity((q) => q + 1)}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </UIButton>
+                  </div>
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex gap-3">
+                  <UIButton
+                    variant="outline"
+                    size="lg"
+                    onClick={handleAddToCart}
+                    disabled={!product.inStock}
+                    className="gap-2 border-2 border-yellow-500"
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    Add to Cart
+                  </UIButton>
+
+                  <UIButton
+                    variant="outline"
+                    size="lg"
+                    onClick={handleWishlistToggle}
+                    className={cn(
+                      "gap-2 border-2 border-yellow-500",
+                      isWishlisted && "text-black"
+                    )}
+                  >
+                    <Heart
+                      className={cn(
+                        "h-5 w-5",
+                        isWishlisted && "fill-current text-yellow-500"
+                      )}
+                    />
+                    {isWishlisted ? "Saved" : "Save"}
+                  </UIButton>
+                </div>
+
+                {/* Related images */}
+                <section className="mt-8">
+                  <h2 className="text-xl md:text-2xl font-semibold mb-4">Related Images</h2>
+                  {product.images.length > 1 && (
+                    <div className="flex gap-2">
+                      {product.images.map((image: string, index: number) => (
+                        <button
+                          key={index}
+                          onClick={() => setActiveImage(index)}
+                          className={cn(
+                            "w-24 h-24 rounded-md overflow-hidden border-2 transition-colors",
+                            activeImage === index
+                              ? "border-yellow-500"
+                              : "border-transparent hover:border-border"
+                          )}
+                        >
+                          <img
+                            src={image}
+                            alt={`${product.name} view ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              </div>
             </div>
-          </div>
+          )
         )}
       </div>
     </main>
