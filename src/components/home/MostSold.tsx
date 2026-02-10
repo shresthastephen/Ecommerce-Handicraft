@@ -5,7 +5,7 @@ export function MostSold() {
   const bestSellers = products.filter((p) => p.isBestSeller).slice(0, 8);
 
   return (
-    <section className="py-12 md:py-16 bg-secondary/30">
+    <section className="pb-12 pt-8 md:pb-16 ">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
           <h2 className="text-2xl md:text-3xl font-serif font-semibold mb-2">
