@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
 // import { productImages} from "../mockdata/products"; 
 import { useCategories } from "../hooks/useCategories";
-import { useProduct } from "../hooks/useProducts";
+import { useProduct } from "../hooks/useProduct(ById)";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
