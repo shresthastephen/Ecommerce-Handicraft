@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, } from "lucide-react";
+import { Facebook, Instagram, Music2 } from "lucide-react";
 
 export function Footer() {
   return (
@@ -30,6 +30,9 @@ export function Footer() {
               </SocialIcon>
               <SocialIcon label="Instagram">
                 <Instagram />
+              </SocialIcon>
+              <SocialIcon label="TikTok">
+                <Music2 />
               </SocialIcon>
               
               

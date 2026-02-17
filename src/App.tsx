@@ -12,6 +12,7 @@ import Index from "./pages/Index";
 import Shops from "./pages/Shops";
 import Details from "./pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
+import About from "./pages/About";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/" element={<Index />} />
             <Route path="/shops" element={<Shops />} />
             <Route path="/product/:productId" element={<Details />} />
+            <Route path="/about" element={<About />} />
           </Routes>
           <Footer />
           <Wishlist />
