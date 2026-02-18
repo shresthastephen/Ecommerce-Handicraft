@@ -1,4 +1,3 @@
-
 import type { Product, CategoryInfo } from "../types/product";
 import slide from "../assets/slide.jpg";
 import slide2 from "../assets/slide2.jpg";
@@ -8,7 +7,7 @@ import shiva from "../assets/shiva.jpg";
 import ganesh from "../assets/ganesh.jpg";
 import saraswati from "../assets/saraswati.jpg";
 import laxmi from "../assets/laxmi.jpg";
-
+import slide4 from "../assets/slide4.jpg";
 
 export const categoryImages = {
   ganesh: {
@@ -28,37 +27,22 @@ export const categoryImages = {
     hero: laxmi,
     square: laxmi,
   },
- 
- 
+
   saraswati: {
     hero: saraswati,
     square: saraswati,
-  }
-
+  },
 } as const;
 
 export const productImages = {
-  ganesh: [
-    ganesh,
-    shiva
-  ],
-  buddha: [
-    buddha
-  ],
-  shiva: [
-    shiva
-  ],
- 
-  laxmi: [
-    laxmi
-  ],
- 
-  saraswati: [
-    saraswati
-  ],
+  ganesh: [ganesh, shiva],
+  buddha: [buddha],
+  shiva: [shiva],
+
+  laxmi: [laxmi],
+
+  saraswati: [saraswati],
 } as const;
-
-
 
 export const categories: CategoryInfo[] = [
   {
@@ -78,14 +62,14 @@ export const categories: CategoryInfo[] = [
     // description: "The Destroyer and Transformer",
     image: categoryImages.shiva.square,
   },
-  
+
   {
     id: "laxmi",
     name: "Laxmi",
     // description: "Goddess of Wealth and Prosperity",
     image: categoryImages.laxmi.square,
   },
- 
+
   {
     id: "saraswati",
     name: "Saraswati",
@@ -93,7 +77,6 @@ export const categories: CategoryInfo[] = [
     image: categoryImages.saraswati.square,
   },
 ];
-
 
 export const products: Product[] = [
   {
@@ -145,7 +128,7 @@ export const products: Product[] = [
     createdAt: "2024-03-01",
   },
 
-   {
+  {
     id: "laxmi-001",
     name: "Shree Laxmi",
     description: "Goddess of Wealth and Prosperity.",
@@ -162,7 +145,7 @@ export const products: Product[] = [
     createdAt: "2024-03-01",
   },
 
-   {
+  {
     id: "saraswati-001",
     name: "Shree Saraswati",
     description: "Goddess of Knowledge and Arts.",
@@ -180,11 +163,10 @@ export const products: Product[] = [
   },
 ];
 
-
 export const bannerSlides = [
   {
     id: 1,
-    title: "Divine Artistry",
+    title: "Shrestha Handicraft",
     subtitle: "Handcrafted God Statues for Your Sacred Space",
     image: slide,
     cta: "Explore Collection",
@@ -193,17 +175,27 @@ export const bannerSlides = [
   {
     id: 2,
     title: "New Arrivals",
-    subtitle: "Discover Our Latest Sacred Sculptures",
+    subtitle: "Discover Our Latest Sculptures",
     image: slide2,
     cta: "Shop New",
     link: "/shops?filter=new",
   },
+
   {
     id: 3,
-    title: "Bronze Masterpieces",
-    subtitle: "Timeless Beauty in Every Detail",
+    title: "Our Story",
+    subtitle: "Where Devotion Meets Master Craftsmanship",
+    image: slide4,
+    cta: "Discover Our Journey",
+    link: "/about",
+  },
+
+  {
+    id: 4,
+    title: "Get in Touch With Us",
+    subtitle: "We’re Here to Assist You Anytime",
     image: slide3,
-    cta: "View Collection",
-    link: "/shops",
+    cta: "Contact Us",
+    link: "/contact",
   },
 ];

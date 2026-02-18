@@ -49,15 +49,21 @@ export function Footer() {
           <FooterColumn title="Information">
             <FooterLink to="/about">About Us</FooterLink>
             <FooterLink to="/contact">Contact</FooterLink>
-            <FooterLink to="/privacy">Privacy Policy</FooterLink>
-            <FooterLink to="/terms">Terms & Conditions</FooterLink>
           </FooterColumn>
 
           {/* Contact */}
           <div>
             <h4 className="footer-title mb-4">Contact Us</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Thaina, Lalitpur, Nepal</li>
+              <li> <a
+                href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 text-sm leading-none"
+              >
+                Yashodhara Marg, <br />
+                Thaina, Lalitpur, Nepal
+              </a></li>
               <li>
                 <a
                   href="mailto:stephencrestha07@gmail.com"
