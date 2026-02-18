@@ -30,19 +30,16 @@ export default function Shops() {
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const initialSearch = searchParams.get("search") || "";
 
-  const [activeFilter, setActiveFilter] =
-    useState<FilterType>(initialFilter);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const [activeFilter, setActiveFilter] = useState<FilterType>(initialFilter);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
 
   const [sortOrder, setSortOrder] = useState<SortType>("none");
 
-
   const maxPrice = useMemo(
-    () =>
-      products.length
-        ? Math.max(...products.map((p) => p.price))
-        : 0,
-    [products]
+    () => (products.length ? Math.max(...products.map((p) => p.price)) : 0),
+    [products],
   );
 
   const maxSize = useMemo(
@@ -50,7 +47,7 @@ export default function Shops() {
       products.length
         ? Math.max(...products.map((p) => extractSize(p.dimensions)))
         : 0,
-    [products]
+    [products],
   );
 
   const maxWeight = useMemo(
@@ -58,15 +55,12 @@ export default function Shops() {
       products.length
         ? Math.max(...products.map((p) => extractWeight(p.weight)))
         : 0,
-    [products]
+    [products],
   );
 
-  const [priceRange, setPriceRange] =
-    useState<[number, number]>([0, 0]);
-  const [sizeRange, setSizeRange] =
-    useState<[number, number]>([0, 0]);
-  const [weightRange, setWeightRange] =
-    useState<[number, number]>([0, 0]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
+  const [sizeRange, setSizeRange] = useState<[number, number]>([0, 0]);
+  const [weightRange, setWeightRange] = useState<[number, number]>([0, 0]);
 
   /* Reset ranges when products load */
   useMemo(() => {
@@ -74,7 +68,6 @@ export default function Shops() {
     setSizeRange([0, maxSize]);
     setWeightRange([0, maxWeight]);
   }, [maxPrice, maxSize, maxWeight]);
-
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
@@ -98,15 +91,13 @@ export default function Shops() {
         (p) =>
           p.name.toLowerCase().includes(query) ||
           p.category.toLowerCase().includes(query) ||
-          p.material.toLowerCase().includes(query)
+          p.material.toLowerCase().includes(query),
       );
     }
 
     // Price
     result = result.filter(
-      (p) =>
-        p.price >= priceRange[0] &&
-        p.price <= priceRange[1]
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
     );
 
     // Size
@@ -118,8 +109,7 @@ export default function Shops() {
     // Weight
     result = result.filter((p) => {
       const weight = extractWeight(p.weight);
-      return weight >= weightRange[0] &&
-        weight <= weightRange[1];
+      return weight >= weightRange[0] && weight <= weightRange[1];
     });
 
     // Sorting
@@ -141,14 +131,13 @@ export default function Shops() {
     categoryParam,
   ]);
 
- 
   return (
     <main className="min-h-screen bg-white">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="sticky top-16 md:top-20 z-40 bg-white py-4 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <h1 className="text-2xl md:text-3xl font-serif font-semibold shrink-0">
+            <h1 className="text-2xl md:text-3xl font-semibold shrink-0">
               All Products
             </h1>
 
@@ -165,18 +154,31 @@ export default function Shops() {
                 type="search"
                 placeholder="Search products..."
                 value={searchQuery}
-                onChange={(e) =>
-                  setSearchQuery(e.target.value)
-                }
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full rounded-md border border-black bg-white pl-10 pr-3 py-2 text-sm outline-none focus:ring-1 focus:ring-yellow-500"
               />
             </div>
           </div>
         </div>
 
+        {/* Mobile filters btn */}
+        <button
+          onClick={() => setShowMobileFilters((prev) => !prev)}
+          className={`
+    md:hidden rounded-md px-4 py-2 text-sm font-medium mt-4 transition-colors duration-200
+    ${showMobileFilters ? "bg-yellow-500 text-black" : "bg-gray-100 text-black"}
+  `}
+        >
+          {showMobileFilters ? "Filters" : "Filters"}
+        </button>
+
         {/* Body */}
         <div className="flex flex-col md:flex-row gap-8 py-6">
-          <div className="md:sticky md:top-44 md:self-start">
+          <div
+            className={`
+            ${showMobileFilters ? "block" : "hidden"} 
+             md:block md:sticky md:top-44 md:self-start `}
+          >
             <FilterSidebar
               priceRange={priceRange}
               onPriceRangeChange={setPriceRange}
@@ -206,10 +208,7 @@ export default function Shops() {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             )}

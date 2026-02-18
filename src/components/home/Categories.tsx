@@ -5,7 +5,7 @@ export function Categories() {
   return (
     <section className="my-10">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-serif font-semibold text-center mb-8">
+        <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8">
           Shop by Deity
         </h2>
         <div className="flex flex-wrap justify-center gap-6 md:gap-10">

@@ -8,18 +8,18 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-2">
               <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
-                <span className="font-serif font-bold text-lg text-primary-foreground">
+                <span className="font-bold text-lg">
                   SH
                 </span>
               </div>
-              <span className="font-serif text-xl font-semibold">
+              <span className=" text-xl font-semibold">
                 Shrestha Handicraft
               </span>
             </Link>
 
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground mb-2">
               Handcrafted sacred sculptures bringing divinity to your home.
               Each piece is crafted with devotion and artistry.
             </p>
@@ -52,9 +52,8 @@ export function Footer() {
           </FooterColumn>
 
           {/* Contact */}
-          <div>
-            <h4 className="footer-title mb-4">Contact Us</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          <FooterColumn title="Contact Us">
+            <ul className="space-y-2 text-sm ">
               <li> <a
                 href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
                 target="_blank"
@@ -87,7 +86,7 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-          </div>
+          </FooterColumn>
         </div>
 
         {/* Bottom */}
@@ -110,7 +109,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h4 className="footer-title mb-4">{title}</h4>
+      <h4 className="footer-title mb-2 font-semibold">{title}</h4>
       <ul className="space-y-2">{children}</ul>
     </div>
   );

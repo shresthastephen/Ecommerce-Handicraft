@@ -28,7 +28,7 @@ export default function About() {
       </section>
 
       {/* Creations */}
-      <section className="py-20">
+      <section className="py-10">
         <div className="container mx-auto px-4 max-w-6xl grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-medium mb-6">Our Sacred Creations</h2>
@@ -69,9 +69,9 @@ export default function About() {
       </section>
 
       {/* Craftsmanship */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-10 bg-gray-50">
         <div className="container mx-auto px-4 max-w-6xl text-center">
-          <h2 className="text-3xl font-medium mb-14">Our Craftsmanship</h2>
+          <h2 className="text-3xl font-medium mb-6">Our Craftsmanship</h2>
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl border hover:shadow-md transition">
@@ -101,7 +101,7 @@ export default function About() {
       </section>
 
       {/* Mission */}
-      <section className="py-20 text-center">
+      <section className="py-10 text-center">
         <div className="container mx-auto px-4 max-w-3xl">
           <h2 className="text-3xl font-medium mb-6">Our Mission</h2>
 

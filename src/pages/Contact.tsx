@@ -1,6 +1,65 @@
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import heroImg from "../assets/slide3.jpg";
 
+const contactItems = [
+  {
+    title: "Visit Our Store",
+    icon: MapPin,
+    content: (
+      <a
+        href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-600 text-xs md:text-sm leading-relaxed hover:text-yellow-500 transition"
+      >
+        Yashodhara Marg, <br />
+        Thaina, Lalitpur, <br />
+        Nepal
+      </a>
+    ),
+  },
+  {
+    title: "Call Us",
+    icon: Phone,
+    content: (
+      <div className="text-gray-600 text-sm space-y-1">
+        <a
+          href="tel:+9779841835052"
+          className="block hover:text-yellow-600 transition"
+        >
+          +977 9841835052
+        </a>
+        <a
+          href="tel:+9779863021927"
+          className="block hover:text-yellow-600 transition"
+        >
+          +977 9863021927
+        </a>
+      </div>
+    ),
+  },
+  {
+    title: "Email Us",
+    icon: Mail,
+    content: (
+      <p className="text-gray-600 text-sm">
+        info@shresthahandicraft.com
+      </p>
+    ),
+  },
+  {
+    title: "Business Hours",
+    icon: Clock,
+    content: (
+      <p className="text-gray-600 text-sm">
+        Sun – Fri: 08:00AM – 6:00PM <br />
+        Sat: 08:00AM – 11:00AM
+      </p>
+    ),
+  },
+];
+
+
 
 export default function Contact() {
   return (
@@ -30,75 +89,33 @@ export default function Contact() {
       </section>
 
       {/* Contact Cards */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Address */}
-            <div className="border rounded-2xl p-8 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
-                <MapPin className="w-6 h-6 text-yellow-700" />
-              </div>
-              <h3 className="font-semibold text-lg mb-3">Visit Our Store</h3>
+      <section className="py-10">
+  <div className="container mx-auto px-4 max-w-6xl">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      {contactItems.map((item, index) => {
+        const Icon = item.icon;
 
-              <a
-                href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 text-sm leading-relaxed hover:text-yellow-500 transition"
-              >
-                Yashodhara Marg, <br />
-                Thaina, Lalitpur, <br />
-                Nepal
-              </a>
+        return (
+          <div
+            key={index}
+            className="border rounded-2xl py-8 px-6 hover:shadow-lg transition group"
+          >
+            <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
+              <Icon className="w-6 h-6 text-yellow-700" />
             </div>
 
-            {/* Phone */}
-            <div className="border rounded-2xl p-8 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
-                <Phone className="w-6 h-6 text-yellow-700" />
-              </div>
-              <h3 className="font-semibold text-lg mb-3">Call Us</h3>
-              <p className="text-gray-600 text-sm space-y-1">
-                <a
-                  href="tel:+9779841835052"
-                  className="block hover:text-yellow-600 transition"
-                >
-                  +977 9841835052
-                </a>
-                <a
-                  href="tel:+9779863021927"
-                  className="block hover:text-yellow-600 transition"
-                >
-                  +977 9863021927
-                </a>
-              </p>
-            </div>
+            <h3 className="font-semibold text-sm md:text-lg mb-3">
+              {item.title}
+            </h3>
 
-            {/* Email */}
-            <div className="border rounded-2xl p-8 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
-                <Mail className="w-6 h-6 text-yellow-700" />
-              </div>
-              <h3 className="font-semibold text-lg mb-3">Email Us</h3>
-              <p className="text-gray-600 text-sm">
-                info@shresthahandicraft.com <br />
-              </p>
-            </div>
-
-            {/* Hours */}
-            <div className="border rounded-2xl p-8 hover:shadow-lg transition group">
-              <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
-                <Clock className="w-6 h-6 text-yellow-700" />
-              </div>
-              <h3 className="font-semibold text-lg mb-3">Business Hours</h3>
-              <p className="text-gray-600 text-sm">
-                Sun – Fri: 08:00AM – 6:00PM <br />
-                Sat: 08:00AM – 11:00AM
-              </p>
-            </div>
+            {item.content}
           </div>
-        </div>
-      </section>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
 
       {/* Map Section */}
       <section className="pb-20">

@@ -1,37 +1,34 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Search,
-  Heart,
-  ShoppingBag,
-  Menu,
-  X,
-  ChevronDown,
-} from "lucide-react";
+import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
 import { categories } from "../../mockdata/products";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileCategoryOpen, setIsMobileCategoryOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
+
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const navigate = useNavigate();
   const { totalItems: cartItems, openCart } = useCart();
   const { totalItems: wishlistItems, openWishlist } = useWishlist();
 
-  
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-// category dropdown
+  // category dropdown
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -66,8 +63,28 @@ export function Navbar() {
   };
 
   const sortedCategories = [...categories].sort((a, b) =>
-    a.name.localeCompare(b.name)
+    a.name.localeCompare(b.name),
   );
+
+  // close menu
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+        setIsMobileCategoryOpen(false); // also close categories
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <header
@@ -91,10 +108,13 @@ export function Navbar() {
 
           {/*  nav */}
           <div className="hidden md:flex items-center gap-6">
-            <Link className="nav-link" to="/">Home</Link>
-            <Link className="nav-link" to="/shops">Shops</Link>
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+            <Link className="nav-link" to="/shops">
+              Shops
+            </Link>
 
-            
             <div ref={categoryRef} className="relative">
               <button
                 onClick={() => setIsCategoryOpen((p) => !p)}
@@ -126,10 +146,8 @@ export function Navbar() {
             </div>
           </div>
 
-
-
           {/* seach */}
-        
+
           <form
             onSubmit={handleSearch}
             className="hidden md:flex flex-1 max-w-md mx-4"
@@ -168,7 +186,10 @@ export function Navbar() {
 
         {/* mobile view */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t py-4 animate-fade-in">
+          <div
+            ref={mobileMenuRef}
+            className="md:hidden border-t py-4 animate-fade-in"
+          >
             <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
@@ -183,28 +204,56 @@ export function Navbar() {
             </form>
 
             <div className="flex flex-col gap-3">
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link">
+              <Link
+                to="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-link"
+              >
                 Home
               </Link>
-              <Link to="/shops" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link">
+              <Link
+                to="/shops"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-link"
+              >
                 Shops
               </Link>
 
               <div className="border-t pt-3">
-                <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">
-                  Categories
-                </p>
-                {sortedCategories.map((cat) => (
-                  <Link
-                    key={cat.id}
-                    // to={`/category/${cat.id}`}
-                     to={`/shops?category=${cat.id}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="mobile-link"
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
+                <button
+                  onClick={() => setIsMobileCategoryOpen((prev) => !prev)}
+                  className="flex items-center justify-between w-full mobile-link"
+                >
+                  <span className="text-xs font-semibold uppercase text-muted-foreground">
+                    Categories
+                  </span>
+
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      isMobileCategoryOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isMobileCategoryOpen ? "max-h-96 mt-2" : "max-h-0"
+                  }`}
+                >
+                  {sortedCategories.map((cat) => (
+                    <Link
+                      key={cat.id}
+                      to={`/shops?category=${cat.id}`}
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsMobileCategoryOpen(false);
+                      }}
+                      className="block px-4 py-2 text-sm hover:bg-muted transition"
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

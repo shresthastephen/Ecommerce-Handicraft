@@ -81,7 +81,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </p>
 
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-lg font-semibold text-yellow-500">
+          <span className=" text-sm md:text-lg font-semibold text-yellow-500">
             NPR {product.price.toLocaleString()}
           </span>
 
