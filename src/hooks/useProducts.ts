@@ -10,7 +10,8 @@ export const useProducts = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch("http://localhost:8000/api/products")
+    // fetch("http://localhost:8000/api/products")
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();

@@ -11,7 +11,8 @@ export const useProduct = (productId?: string) => {
 
     setLoading(true);
 
-    fetch(`http://localhost:8000/api/products/${productId}`)
+    // fetch(`http://localhost:8000/api/products/${productId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${productId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Product not found");
         return res.json();
