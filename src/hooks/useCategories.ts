@@ -12,7 +12,7 @@ export const useCategories = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // fetch("http://localhost:8000/api/categories")
+    // fetch("http://localhost:8000/api/products/categories/all")
     fetch(`${import.meta.env.VITE_API_URL}/api/categories`)
       .then((res) => res.json())
       .then((data) => {
