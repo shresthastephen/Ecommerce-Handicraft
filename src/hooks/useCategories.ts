@@ -12,13 +12,13 @@
 //   const [loading, setLoading] = useState(true);
 
 //   useEffect(() => {
-//     // fetch("http://localhost:8000/api/products/categories/all")
+//     fetch("http://localhost:8000/api/products/categories/all")
 //     // fetch(`${import.meta.env.VITE_API_URL}/api/categories`)
  
 //     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 //   console.log('API URL:', apiUrl);
 
-//   fetch(`${apiUrl}/api/products`)
+//   fetch(`${apiUrl}/products`)
 //     .then((res) => res.json())
 //       .then((data) => {
 //         setCategories(data);
@@ -48,7 +48,7 @@ export const useCategories = () => {
     console.log('API URL:', apiUrl);
 
     // Fetch categories from the correct endpoint
-    fetch(`${apiUrl}/categories`)
+    fetch(`${apiUrl}/products`)
       .then((res) => res.json())
       .then((data) => {
         setCategories(data);
