@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
-import { categories } from "../../mockdata/products";
+
+import { useCategories } from "../../hooks/useCategories";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -62,6 +63,12 @@ export function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
+  const { categories, fetchCategories } = useCategories();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   const sortedCategories = [...categories].sort((a, b) =>
     a.name.localeCompare(b.name),
   );
@@ -75,7 +82,7 @@ export function Navbar() {
         !mobileMenuRef.current.contains(e.target as Node)
       ) {
         setIsMobileMenuOpen(false);
-        setIsMobileCategoryOpen(false); // also close categories
+        setIsMobileCategoryOpen(false);
       }
     };
 
@@ -133,8 +140,8 @@ export function Navbar() {
                 <div className="absolute left-0 top-full mt-2 w-56 rounded-md border bg-white shadow-lg animate-fade-in">
                   {sortedCategories.map((cat) => (
                     <Link
-                      key={cat.id}
-                      to={`/shops?category=${cat.id}`}
+                      key={cat.category_id}
+                      to={`/shops?category=${cat.category_id}`}
                       onClick={() => setIsCategoryOpen(false)}
                       className="block px-4 py-2 text-sm hover:bg-muted transition"
                     >
@@ -242,8 +249,8 @@ export function Navbar() {
                 >
                   {sortedCategories.map((cat) => (
                     <Link
-                      key={cat.id}
-                      to={`/shops?category=${cat.id}`}
+                      key={cat.category_id}
+                      to={`/shops?category=${cat.category_id}`}
                       onClick={() => {
                         setIsMobileMenuOpen(false);
                         setIsMobileCategoryOpen(false);

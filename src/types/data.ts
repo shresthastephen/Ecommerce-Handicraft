@@ -1,32 +1,22 @@
 export interface Product {
-  id: string;
+  product_id: string;
+  sku: string;
   name: string;
   description: string;
   price: number;
-  originalPrice: number;
+  original_price: number;
   images: string[];
-  category: Category;
+  category_name: string;
   material: string;
   dimensions: string;
   weight: string;
-  inStock: boolean;
-  isBestSeller: boolean;
-  isNewArrival: boolean;
-  createdAt: string;
+  created_at: string;
 }
 
-export type Category = 
-  | "ganesh"
-  | "shiva"
-  | "buddha"
-  | "laxmi"
-  | "saraswati";
-
 export interface CategoryInfo {
-  id: Category;
+ category_id: string;
   name: string;
-  // description: string;
-  image: string;
+  description: string;
 }
 
 export interface CartItem {
@@ -38,4 +28,15 @@ export interface CartItem {
 export interface WishlistItem {
   product: Product;
   addedAt: string;
+}
+
+
+export interface Stock {
+  stock_id: number;
+  product_id: string;
+  quantity: number;
+  is_bestseller: boolean;
+  is_newarrival: boolean;
+  created_at: string;
+  updated_at: string;
 }

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import type { WishlistItem, Product } from "../types/product";
+import type { WishlistItem, Product } from "../types/data";
 
 interface WishlistContextType {
   items: WishlistItem[];

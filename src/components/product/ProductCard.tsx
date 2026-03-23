@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
-import type { Product } from "../../types/product";
+import type { Product } from "../../types/data";
 import { useWishlist } from "../../context/WishlistContext";
 import { cn } from "../../libs/utils";
 
@@ -10,23 +10,23 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { isInWishlist, toggleItem } = useWishlist();
-  const isWishlisted = isInWishlist(product.id);
+  const isWishlisted = isInWishlist(product.product_id); 
 
   const discount = Math.round(
-    ((product.originalPrice - product.price) / product.originalPrice) * 100
+    ((product.original_price - product.price) / product.original_price) * 100
   );
 
   const handleWishlistClick = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
-    e.preventDefault();   // prevents Link navigation
-    e.stopPropagation();  // prevents bubbling
+    e.preventDefault();   
+    e.stopPropagation();  
     toggleItem(product);
   };
 
   return (
     <Link
-      to={`/product/${product.id}`}
+      to={`/product/${product.product_id}`}
       className="group block bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
     >
       {/* Image */}
@@ -85,9 +85,9 @@ export function ProductCard({ product }: ProductCardProps) {
             NPR {product.price.toLocaleString()}
           </span>
 
-          {product.originalPrice > product.price && (
+          {product.original_price > product.price && (
             <span className="text-sm text-muted-foreground line-through">
-              NPR {product.originalPrice.toLocaleString()}
+              NPR {product.original_price.toLocaleString()}
             </span>
           )}
         </div>

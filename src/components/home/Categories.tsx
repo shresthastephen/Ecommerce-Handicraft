@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
-import { categories } from "../../mockdata/products";
+import { useCategories } from "../../hooks/useCategories";
+import { useProducts } from "../../hooks/useProducts";
 
 export function Categories() {
+  const { categories } = useCategories();
+  const { products } = useProducts();
+
+
   return (
     <section className="my-10">
       <div className="container mx-auto px-4">
@@ -11,13 +16,13 @@ export function Categories() {
         <div className="flex flex-wrap justify-center gap-6 md:gap-10">
           {categories.map((category) => (
             <Link
-              key={category.id}
-              to={`/shops?category=${category.id}`}
+              key={category.category_id}
+              to={`/shops?category=${category.category_id}`}
               className="group flex flex-col items-center"
             >
               <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-border hover:border-yellow-500 transition-all duration-300 group-hover:scale-105">
                 <img
-                  src={category.image}
+                  src={products.find((p) => p.name === category.name)?.images[0] || "/placeholder.png"}
                   alt={category.name}
                   className="w-full h-full object-cover"
                 />

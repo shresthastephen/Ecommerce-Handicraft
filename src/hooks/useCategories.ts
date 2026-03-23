@@ -1,55 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import type { CategoryInfo } from "../types/data";
 
-export interface Category {
-  id: string;
-  name: string;
-}
+
+export type Category = CategoryInfo;
+
 
 export const useCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch("http://localhost:8000/api/products/categories/all")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch categories");
-        return res.json();
-      })
-      .then((data) => {
-        setCategories(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+ const fetchCategories = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:8000/api/categories");
+      setCategories(res.data);
+      setError(null);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to fetch categories");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  return { categories, loading };
+  return { categories, loading, error, fetchCategories };
 };
-
-// import { useEffect, useState } from "react";
-
-// export interface Category {
-//   id: string;
-//   name: string;
-// }
-
-// export const useCategories = () => {
-//   const [categories, setCategories] = useState<Category[]>([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-//     console.log('API URL:', apiUrl);
-
-//     fetch(`${apiUrl}/products`)
-//       .then((res) => res.json())
-//       .then((data) => {
-//         setCategories(data);
-//         setLoading(false);
-//       })
-//       .catch(() => {
-//         setLoading(false);
-//       });
-//   }, []);
-
-//   return { categories, loading };
-// };

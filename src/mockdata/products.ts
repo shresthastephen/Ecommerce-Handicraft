@@ -1,4 +1,4 @@
-import type { Product, CategoryInfo } from "../types/product";
+import type { Product, CategoryInfo } from "../types/data";
 import slide from "../assets/slide.jpg";
 import slide2 from "../assets/slide2.jpg";
 import slide3 from "../assets/slide3.jpg";
@@ -44,57 +44,57 @@ export const productImages = {
   saraswati: [saraswati],
 } as const;
 
-export const categories: CategoryInfo[] = [
-  {
-    id: "ganesh",
-    name: "Ganesh",
-    image: categoryImages.ganesh.square,
-  },
-  {
-    id: "buddha",
-    name: "Buddha",
-    // description: "The Enlightened One",
-    image: categoryImages.buddha.square,
-  },
-  {
-    id: "shiva",
-    name: "Shiva",
-    // description: "The Destroyer and Transformer",
-    image: categoryImages.shiva.square,
-  },
+// export const categories: CategoryInfo[] = [
+//   {
+//     id: "ganesh",
+//     name: "Ganesh",
+//     image: categoryImages.ganesh.square,
+//   },
+//   {
+//     id: "buddha",
+//     name: "Buddha",
+//     // description: "The Enlightened One",
+//     image: categoryImages.buddha.square,
+//   },
+//   {
+//     id: "shiva",
+//     name: "Shiva",
+//     // description: "The Destroyer and Transformer",
+//     image: categoryImages.shiva.square,
+//   },
 
-  {
-    id: "laxmi",
-    name: "Laxmi",
-    // description: "Goddess of Wealth and Prosperity",
-    image: categoryImages.laxmi.square,
-  },
+//   {
+//     id: "laxmi",
+//     name: "Laxmi",
+//     // description: "Goddess of Wealth and Prosperity",
+//     image: categoryImages.laxmi.square,
+//   },
 
-  {
-    id: "saraswati",
-    name: "Saraswati",
-    // description: "Goddess of Knowledge and Arts",
-    image: categoryImages.saraswati.square,
-  },
-];
+//   {
+//     id: "saraswati",
+//     name: "Saraswati",
+//     // description: "Goddess of Knowledge and Arts",
+//     image: categoryImages.saraswati.square,
+//   },
+// ];
 
 export const products: Product[] = [
-  {
-    id: "ganesh-001",
-    name: "Shree",
-    description: "Ganesha statue with antique finish.",
-    price: 2499,
-    originalPrice: 3299,
-    images: [...productImages.ganesh],
-    category: "ganesh",
-    material: "Copper",
-    dimensions: "8 x 5 x 4 inches",
-    weight: "1.2 kg",
-    inStock: true,
-    isBestSeller: true,
-    isNewArrival: true,
-    createdAt: "2024-01-15",
-  },
+  // {
+  //   id: "ganesh-001",
+  //   name: "Shree",
+  //   description: "Ganesha statue with antique finish.",
+  //   price: 2499,
+  //   originalPrice: 3299,
+  //   images: [...productImages.ganesh],
+  //   category: "ganesh",
+  //   material: "Copper",
+  //   dimensions: "8 x 5 x 4 inches",
+  //   weight: "1.2 kg",
+  //   inStock: true,
+  //   isBestSeller: true,
+  //   isNewArrival: true,
+  //   createdAt: "2024-01-15",
+  // },
   // {
   //   id: "buddha-001",
   //   name: "Meditating Buddha ",
