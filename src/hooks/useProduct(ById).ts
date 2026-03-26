@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/data";
-import { productImages } from "../mockdata/products";
 
 export const useProduct = (productId?: string) => {
   const [product, setProduct] = useState<Product | null>(null);
@@ -19,12 +18,12 @@ export const useProduct = (productId?: string) => {
       .then((data) => {
         setProduct({
           ...data,
-          images:
-            productImages[data.category as keyof typeof productImages] || [],
+          images: data.images || [], // ✅ only API images
         });
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
         setProduct(null);
         setLoading(false);
       });
@@ -32,4 +31,3 @@ export const useProduct = (productId?: string) => {
 
   return { product, loading };
 };
-

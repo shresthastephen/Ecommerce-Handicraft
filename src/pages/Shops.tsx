@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
-
 import { useProducts } from "../hooks/useProducts";
 import { ProductCard } from "../components/product/ProductCard";
 import { ProductCards } from "../components/product/ProductCards";
@@ -12,11 +11,13 @@ import {
 } from "../components/product/FilterSidebar";
 import { FilterButtons } from "../components/product/FilterButtons";
 
+// Extract size from the dimensions
 function extractSize(dimensions: string): number {
   const match = dimensions?.match(/(\d+)/);
   return match ? parseInt(match[1]) : 0;
 }
 
+// Extract weight from weight string
 function extractWeight(weight: string): number {
   const match = weight?.match(/([\d.]+)/);
   return match ? parseFloat(match[1]) : 0;
@@ -26,41 +27,35 @@ export default function Shops() {
   const { products, loading } = useProducts();
   const [searchParams] = useSearchParams();
 
+  // Get initial query params from URL
   const categoryParam = searchParams.get("category");
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const initialSearch = searchParams.get("search") || "";
 
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
   const [activeFilter, setActiveFilter] = useState<FilterType>(initialFilter);
   const [searchQuery, setSearchQuery] = useState(initialSearch);
-
   const [sortOrder, setSortOrder] = useState<SortType>("none");
 
   const maxPrice = useMemo(
     () => (products.length ? Math.max(...products.map((p) => p.price)) : 0),
-    [products],
+    [products]
   );
 
   const maxSize = useMemo(
-    () =>
-      products.length
-        ? Math.max(...products.map((p) => extractSize(p.dimensions)))
-        : 0,
-    [products],
+    () => (products.length ? Math.max(...products.map((p) => extractSize(p.dimensions))) : 0),
+    [products]
   );
 
   const maxWeight = useMemo(
-    () =>
-      products.length
-        ? Math.max(...products.map((p) => extractWeight(p.weight)))
-        : 0,
-    [products],
+    () => (products.length ? Math.max(...products.map((p) => extractWeight(p.weight))) : 0),
+    [products]
   );
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
-  const [sizeRange, setSizeRange] = useState<[number, number]>([0, 0]);
-  const [weightRange, setWeightRange] = useState<[number, number]>([0, 0]);
+  // Initialize range values for filtering
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPrice]);
+  const [sizeRange, setSizeRange] = useState<[number, number]>([0, maxSize]);
+  const [weightRange, setWeightRange] = useState<[number, number]>([0, maxWeight]);
 
   /* Reset ranges when products load */
   useMemo(() => {
@@ -69,50 +64,51 @@ export default function Shops() {
     setWeightRange([0, maxWeight]);
   }, [maxPrice, maxSize, maxWeight]);
 
+  // Filter products based on the criteria
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Filter type
+    // Filter by type (best sellers, new arrivals, etc.)
     if (activeFilter === "top") {
-      result = result.filter((p) => p.isBestSeller);
+      result = result.filter((p) => p.is_bestseller);
     } else if (activeFilter === "new") {
       result = result.filter((p) => p.isNewArrival);
     }
 
-    // Category
+    // Filter by category
     if (categoryParam) {
       result = result.filter((p) => p.category === categoryParam);
     }
 
-    // Search
+    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
           p.category.toLowerCase().includes(query) ||
-          p.material.toLowerCase().includes(query),
+          p.material.toLowerCase().includes(query)
       );
     }
 
-    // Price
+    // Filter by price range
     result = result.filter(
-      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
     );
 
-    // Size
+    // Filter by size range
     result = result.filter((p) => {
       const size = extractSize(p.dimensions);
       return size >= sizeRange[0] && size <= sizeRange[1];
     });
 
-    // Weight
+    // Filter by weight range
     result = result.filter((p) => {
       const weight = extractWeight(p.weight);
       return weight >= weightRange[0] && weight <= weightRange[1];
     });
 
-    // Sorting
+    // Sorting by price
     if (sortOrder === "low-to-high") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "high-to-low") {
@@ -165,9 +161,9 @@ export default function Shops() {
         <button
           onClick={() => setShowMobileFilters((prev) => !prev)}
           className={`
-    md:hidden rounded-md px-4 py-2 text-sm font-medium mt-4 transition-colors duration-200
-    ${showMobileFilters ? "bg-yellow-500 text-black" : "bg-gray-100 text-black"}
-  `}
+            md:hidden rounded-md px-4 py-2 text-sm font-medium mt-4 transition-colors duration-200
+            ${showMobileFilters ? "bg-yellow-500 text-black" : "bg-gray-100 text-black"}
+          `}
         >
           {showMobileFilters ? "Filters" : "Filters"}
         </button>
@@ -176,8 +172,9 @@ export default function Shops() {
         <div className="flex flex-col md:flex-row gap-8 py-6">
           <div
             className={`
-            ${showMobileFilters ? "block" : "hidden"} 
-             md:block md:sticky md:top-44 md:self-start `}
+              ${showMobileFilters ? "block" : "hidden"} 
+              md:block md:sticky md:top-44 md:self-start
+            `}
           >
             <FilterSidebar
               priceRange={priceRange}
@@ -208,11 +205,16 @@ export default function Shops() {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product.product_id} product={product} />
                 ))}
               </div>
             )}
           </div>
+        </div>
+
+        {/* Optional footer or other content */}
+        <div className="py-8">
+          {/* If you need a pagination component or additional content */}
         </div>
       </div>
     </main>

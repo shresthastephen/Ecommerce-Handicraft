@@ -1,13 +1,14 @@
-import { useState} from "react";
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
-// import { productImages} from "../mockdata/products"; 
+// import { productImages} from "../mockdata/products";
 import { useCategories } from "../hooks/useCategories";
 import { useProduct } from "../hooks/useProduct(ById)";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
 import { cn } from "../libs/utils";
+// import { useStocks } from "../hooks/useStocks";
 
 function UIButton({
   children,
@@ -58,23 +59,20 @@ export default function ProductDetail() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
-
   const { addItem: addToCart } = useCart();
   const { isInWishlist, toggleItem } = useWishlist();
 
   // fetch product from API
   const { productId } = useParams();
-  const { product,loading} = useProduct(productId);
-
+  const { product, loading } = useProduct(productId);
 
   // fetch categories from hooks
   const { categories } = useCategories();
 
-
-  const isWishlisted = product ? isInWishlist(product.id) : false;
+  const isWishlisted = product ? isInWishlist(product.product_id) : false;
 
   const category = product
-    ? categories.find((c) => c.id === product.category)
+    ? categories.find((c) => c.category_id === product.category_name)
     : null;
 
   const handleAddToCart = () => {
@@ -104,7 +102,8 @@ export default function ProductDetail() {
 
   const discount = product
     ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
+        ((product.original_price - product.price) / product.original_price) *
+          100,
       )
     : 0;
 
@@ -119,7 +118,9 @@ export default function ProductDetail() {
           {category && (
             <>
               <ChevronRight className="h-4 w-4" />
-              <Link to={`/shops?category=${category.id}`}>{category.name}</Link>
+              <Link to={`/shops?category=${category.category_id}`}>
+                {category.name}
+              </Link>
             </>
           )}
           <ChevronRight className="h-4 w-4" />
@@ -151,16 +152,29 @@ export default function ProductDetail() {
               <div className="space-y-4">
                 <div className="aspect-square rounded-lg overflow-hidden bg-muted">
                   <img
-                    src={product.images[activeImage]}
+                    src={`http://localhost:8000${product?.images?.[0]}`}
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
+                  {/* <img
+                    src={`http://localhost:8000${product?.images[0] } `}
+                    alt={product?.name ?? "Product Image"}
+                    className="w-full h-full object-cover"
+                  /> */}
+
+                  {/* <img
+  src={`http://localhost:8000${images[activeImage].trim()}`}
+  alt={product?.name ?? "Product Image"}
+  className="w-full h-full object-cover"
+/> */}
                 </div>
               </div>
 
               {/* Product info */}
               <div>
-                <h1 className="text-2xl md:text-4xl font-sans mb-2">{product.name}</h1>
+                <h1 className="text-2xl md:text-4xl font-sans mb-2">
+                  {product.name}
+                </h1>
                 <p className="text-base text-muted-foreground capitalize mb-4">
                   {product.material} • {category?.name}
                 </p>
@@ -171,7 +185,7 @@ export default function ProductDetail() {
                     NPR {product.price.toLocaleString()}
                   </span>
                   <span className="text-lg text-muted-foreground line-through">
-                    NPR {product.originalPrice.toLocaleString()}
+                    NPR {product.original_price.toLocaleString()}
                   </span>
                   {discount > 0 && (
                     <span className="px-2 py-1 text-sm font-semibold bg-gold-gradient text-black rounded">
@@ -180,27 +194,37 @@ export default function ProductDetail() {
                   )}
                 </div>
 
-                <p className="text-muted-foreground mb-6">{product.description}</p>
+                <p className="text-muted-foreground mb-6">
+                  {product.description}
+                </p>
 
                 {/* Product details */}
                 <div className="grid grid-cols-2 gap-4 mb-6 p-4 rounded-lg">
                   <div>
-                    <span className="text-base text-muted-foreground">Dimensions</span>
+                    <span className="text-base text-muted-foreground">
+                      Dimensions
+                    </span>
                     <p className="text-lg font-medium">{product.dimensions}</p>
                   </div>
                   <div>
-                    <span className="text-base text-muted-foreground">Weight</span>
+                    <span className="text-base text-muted-foreground">
+                      Weight
+                    </span>
                     <p className="text-lg font-medium">{product.weight}</p>
                   </div>
                   <div>
-                    <span className="text-base text-muted-foreground">Material</span>
+                    <span className="text-base text-muted-foreground">
+                      Material
+                    </span>
                     <p className="text-lg font-medium">{product.material}</p>
                   </div>
                   <div>
-                    <span className="text-base text-muted-foreground">Availability</span>
-                    <p className="text-lg font-medium">
-                      {product.inStock ? "In Stock" : "Out of Stock"}
-                    </p>
+                    <span className="text-base text-muted-foreground">
+                      Availability
+                    </span>
+                    {/* <p className="text-lg font-medium">
+                      {useStocks.inStock ? "In Stock" : "Out of Stock"}
+                    </p> */}
                   </div>
                 </div>
 
@@ -235,7 +259,7 @@ export default function ProductDetail() {
                     variant="outline"
                     size="lg"
                     onClick={handleAddToCart}
-                    disabled={!product.inStock}
+                    // disabled={!product.inStock}
                     className="gap-2 border-2 border-yellow-500"
                   >
                     <ShoppingBag className="h-5 w-5" />
@@ -248,13 +272,13 @@ export default function ProductDetail() {
                     onClick={handleWishlistToggle}
                     className={cn(
                       "gap-2 border-2 border-yellow-500",
-                      isWishlisted && "text-black"
+                      isWishlisted && "text-black",
                     )}
                   >
                     <Heart
                       className={cn(
                         "h-5 w-5",
-                        isWishlisted && "fill-current text-yellow-500"
+                        isWishlisted && "fill-current text-yellow-500",
                       )}
                     />
                     {isWishlisted ? "Saved" : "Save"}
@@ -263,27 +287,29 @@ export default function ProductDetail() {
 
                 {/* Related images */}
                 <section className="mt-8">
-                  <h2 className="text-xl md:text-2xl font-semibold mb-4">Related Images</h2>
+                  <h2 className="text-xl md:text-2xl font-semibold mb-4">
+                    Related Images
+                  </h2>
                   {product.images.length > 1 && (
                     <div className="flex gap-2">
-                      {product.images.map((image: string, index: number) => (
-                        <button
-                          key={index}
-                          onClick={() => setActiveImage(index)}
-                          className={cn(
-                            "w-24 h-24 rounded-md overflow-hidden border-2 transition-colors",
-                            activeImage === index
-                              ? "border-yellow-500"
-                              : "border-transparent hover:border-border"
-                          )}
-                        >
-                          <img
-                            src={image}
-                            alt={`${product.name} view ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </button>
-                      ))}
+                      {product.images.length > 1 && (
+                        <div className="flex gap-2">
+                          {product.images.map((img: string, index: number) => (
+                            <img
+                              key={index}
+                              src={`http://localhost:8000${img.trim()}`}
+                              alt={`${product.name} - ${index + 1}`}
+                              className={cn(
+                                "w-20 h-20 object-cover rounded cursor-pointer border-2",
+                                activeImage === index
+                                  ? "border-yellow-500"
+                                  : "border-transparent hover:border-gray-300",
+                              )}
+                              onClick={() => setActiveImage(index)}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </section>
