@@ -1,19 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
-
 import { useCategories } from "../../hooks/useCategories";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileCategoryOpen, setIsMobileCategoryOpen] = useState(false);
-
   const [searchQuery, setSearchQuery] = useState("");
-
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
   const categoryRef = useRef<HTMLDivElement | null>(null);
@@ -23,75 +19,47 @@ export function Navbar() {
   const { totalItems: cartItems, openCart } = useCart();
   const { totalItems: wishlistItems, openWishlist } = useWishlist();
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // categories hook
+  const { categories, fetchCategories } = useCategories();
+  const sortedCategories = [...categories].sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
 
-  // category dropdown
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        categoryRef.current &&
-        !categoryRef.current.contains(e.target as Node)
-      ) {
-        setIsCategoryOpen(false);
-      }
-    };
-
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsCategoryOpen(false);
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEsc);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEsc);
-    };
-  }, []);
-
-  // search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-
     navigate(`/shops?search=${encodeURIComponent(searchQuery.trim())}`);
     setSearchQuery("");
     setIsMobileMenuOpen(false);
   };
 
-  const { categories, fetchCategories } = useCategories();
+  window.onscroll = () => setIsScrolled(window.scrollY > 20);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const handleClickOutsideCategory = (e: MouseEvent) => {
+    if (
+      categoryRef.current &&
+      !categoryRef.current.contains(e.target as Node)
+    ) {
+      setIsCategoryOpen(false);
+    }
+  };
+  const handleEscCategory = (e: KeyboardEvent) => {
+    if (e.key === "Escape") setIsCategoryOpen(false);
+  };
+  document.addEventListener("mousedown", handleClickOutsideCategory);
+  document.addEventListener("keydown", handleEscCategory);
 
-  const sortedCategories = [...categories].sort((a, b) =>
-    a.name.localeCompare(b.name),
-  );
-
-  // close menu
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        isMobileMenuOpen &&
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(e.target as Node)
-      ) {
-        setIsMobileMenuOpen(false);
-        setIsMobileCategoryOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMobileMenuOpen]);
+  const handleClickOutsideMobile = (e: MouseEvent) => {
+    if (
+      isMobileMenuOpen &&
+      mobileMenuRef.current &&
+      !mobileMenuRef.current.contains(e.target as Node)
+    ) {
+      setIsMobileMenuOpen(false);
+      setIsMobileCategoryOpen(false);
+    }
+  };
+  document.addEventListener("mousedown", handleClickOutsideMobile);
 
   return (
     <header
@@ -101,7 +69,7 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4">
         <nav className="flex h-16 md:h-20 items-center justify-between gap-4">
-          {/* brand */}
+          {/* Brand */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gold-gradient flex items-center justify-center">
               <span className="font-serif font-bold text-sm md:text-lg">
@@ -113,7 +81,7 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/*  nav */}
+          {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
             <Link className="nav-link" to="/">
               Home
@@ -124,7 +92,10 @@ export function Navbar() {
 
             <div ref={categoryRef} className="relative">
               <button
-                onClick={() => setIsCategoryOpen((p) => !p)}
+                onClick={() => {
+                  setIsCategoryOpen((prev) => !prev);
+                  if (!categories.length) fetchCategories(); // fetch on first open
+                }}
                 className="flex items-center gap-1 nav-link"
                 aria-expanded={isCategoryOpen}
               >
@@ -153,8 +124,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* seach */}
-
+          {/* Search */}
           <form
             onSubmit={handleSearch}
             className="hidden md:flex flex-1 max-w-md mx-4"
@@ -172,7 +142,7 @@ export function Navbar() {
             </div>
           </form>
 
-          {/* btn */}
+          {/* Buttons */}
           <div className="flex items-center gap-2">
             <IconButton onClick={openWishlist} badge={wishlistItems}>
               <Heart className="h-5 w-5" />
@@ -184,14 +154,14 @@ export function Navbar() {
 
             <button
               className="md:hidden p-2 rounded-md hover:bg-muted"
-              onClick={() => setIsMobileMenuOpen((p) => !p)}
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
               {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </nav>
 
-        {/* mobile view */}
+        {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
@@ -228,13 +198,15 @@ export function Navbar() {
 
               <div className="border-t pt-3">
                 <button
-                  onClick={() => setIsMobileCategoryOpen((prev) => !prev)}
+                  onClick={() => {
+                    setIsMobileCategoryOpen((prev) => !prev);
+                    if (!categories.length) fetchCategories(); // fetch on first open
+                  }}
                   className="flex items-center justify-between w-full mobile-link"
                 >
                   <span className="text-xs font-semibold uppercase text-muted-foreground">
                     Categories
                   </span>
-
                   <ChevronDown
                     className={`h-4 w-4 transition-transform ${
                       isMobileCategoryOpen ? "rotate-180" : ""

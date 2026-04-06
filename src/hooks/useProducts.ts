@@ -1,38 +1,25 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useCallback } from "react";
 import type { Product } from "../types/data";
+import API from "../routes/api";
 
 export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_URL = "http://localhost:8000/api/products";  
-  
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get<Product[]>(API_URL);
-        setProducts(response.data);
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch products");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();  
-  }, []);
-
-  return { products, loading, error, fetchProducts: () => { 
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
-    axios.get<Product[]>(API_URL)
-      .then(response => setProducts(response.data))
-      .catch(err => setError(err.message || "Failed to fetch products"))
-      .finally(() => setLoading(false));
-  }
-  };
+
+    try {
+      const res = await API.get("/products");
+      setProducts(res.data);
+    } catch (err: any) {
+      setError(err.message || "Failed to fetch products");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return { products, loading, error, fetchProducts };
 };

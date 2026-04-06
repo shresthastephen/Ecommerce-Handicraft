@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
-// import { productImages} from "../mockdata/products";
 import { useCategories } from "../hooks/useCategories";
 import { useProduct } from "../hooks/useProduct(ById)";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
 import { cn } from "../libs/utils";
-// import { useStocks } from "../hooks/useStocks";
 
 function UIButton({
   children,
@@ -52,10 +50,6 @@ function UISkeleton({ className = "" }: { className?: string }) {
 }
 
 export default function ProductDetail() {
-  // const { productId } = useParams<{ productId: string }>();
-
-  // const [product, setProduct] = useState<any>(null);
-
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -66,7 +60,6 @@ export default function ProductDetail() {
   const { productId } = useParams();
   const { product, loading } = useProduct(productId);
 
-  // fetch categories from hooks
   const { categories } = useCategories();
 
   const isWishlisted = product ? isInWishlist(product.product_id) : false;
@@ -152,21 +145,12 @@ export default function ProductDetail() {
               <div className="space-y-4">
                 <div className="aspect-square rounded-lg overflow-hidden bg-muted">
                   <img
-                    src={`http://localhost:8000${product?.images?.[0]}`}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                  {/* <img
-                    src={`http://localhost:8000${product?.images[0] } `}
+                    src={`http://localhost:8000${
+                      product?.images?.[activeImage] || product?.images?.[0]
+                    }`}
                     alt={product?.name ?? "Product Image"}
                     className="w-full h-full object-cover"
-                  /> */}
-
-                  {/* <img
-  src={`http://localhost:8000${images[activeImage].trim()}`}
-  alt={product?.name ?? "Product Image"}
-  className="w-full h-full object-cover"
-/> */}
+                  />
                 </div>
               </div>
 
@@ -179,7 +163,6 @@ export default function ProductDetail() {
                   {product.material} • {category?.name}
                 </p>
 
-                {/* Price */}
                 <div className="flex items-center gap-3 mb-6">
                   <span className="text-2xl font-bold text-black">
                     NPR {product.price.toLocaleString()}
@@ -228,7 +211,6 @@ export default function ProductDetail() {
                   </div>
                 </div>
 
-                {/* Quantity */}
                 <div className="flex items-center gap-4 mb-6">
                   <span className="text-base font-medium">Quantity:</span>
                   <div className="flex items-center border-2 border-grey rounded-md">
@@ -290,26 +272,23 @@ export default function ProductDetail() {
                   <h2 className="text-xl md:text-2xl font-semibold mb-4">
                     Related Images
                   </h2>
+
                   {product.images.length > 1 && (
                     <div className="flex gap-2">
-                      {product.images.length > 1 && (
-                        <div className="flex gap-2">
-                          {product.images.map((img: string, index: number) => (
-                            <img
-                              key={index}
-                              src={`http://localhost:8000${img.trim()}`}
-                              alt={`${product.name} - ${index + 1}`}
-                              className={cn(
-                                "w-20 h-20 object-cover rounded cursor-pointer border-2",
-                                activeImage === index
-                                  ? "border-yellow-500"
-                                  : "border-transparent hover:border-gray-300",
-                              )}
-                              onClick={() => setActiveImage(index)}
-                            />
-                          ))}
-                        </div>
-                      )}
+                      {product.images.map((img: string, index: number) => (
+                        <img
+                          key={index}
+                          src={`http://localhost:8000${img.trim()}`}
+                          alt={`${product.name} - ${index + 1}`}
+                          className={cn(
+                            "w-20 h-20 object-cover rounded cursor-pointer border-2",
+                            activeImage === index
+                              ? "border-yellow-500"
+                              : "border-transparent hover:border-gray-300",
+                          )}
+                          onClick={() => setActiveImage(index)}
+                        />
+                      ))}
                     </div>
                   )}
                 </section>

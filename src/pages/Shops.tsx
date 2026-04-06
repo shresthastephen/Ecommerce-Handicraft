@@ -1,7 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
+
 import { useProducts } from "../hooks/useProducts";
+import { useStocks } from "../hooks/useStocks";
 import { ProductCard } from "../components/product/ProductCard";
 import { ProductCards } from "../components/product/ProductCards";
 import {
@@ -11,23 +13,21 @@ import {
 } from "../components/product/FilterSidebar";
 import { FilterButtons } from "../components/product/FilterButtons";
 
-// Extract size from the dimensions
 function extractSize(dimensions: string): number {
   const match = dimensions?.match(/(\d+)/);
   return match ? parseInt(match[1]) : 0;
 }
 
-// Extract weight from weight string
 function extractWeight(weight: string): number {
   const match = weight?.match(/([\d.]+)/);
   return match ? parseFloat(match[1]) : 0;
 }
 
 export default function Shops() {
-  const { products, loading } = useProducts();
+  const { products, fetchProducts, loading } = useProducts();
+  const { bestSellers, newArrivals, fetchStocks } = useStocks();
   const [searchParams] = useSearchParams();
 
-  // Get initial query params from URL
   const categoryParam = searchParams.get("category");
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
   const initialSearch = searchParams.get("search") || "";
@@ -37,78 +37,89 @@ export default function Shops() {
   const [searchQuery, setSearchQuery] = useState(initialSearch);
   const [sortOrder, setSortOrder] = useState<SortType>("none");
 
+  useEffect(() => {
+    fetchProducts();
+    fetchStocks();
+  }, [fetchProducts, fetchStocks]);
+
   const maxPrice = useMemo(
     () => (products.length ? Math.max(...products.map((p) => p.price)) : 0),
-    [products]
+    [products],
   );
 
   const maxSize = useMemo(
-    () => (products.length ? Math.max(...products.map((p) => extractSize(p.dimensions))) : 0),
-    [products]
+    () =>
+      products.length
+        ? Math.max(...products.map((p) => extractSize(p.dimensions)))
+        : 0,
+    [products],
   );
 
   const maxWeight = useMemo(
-    () => (products.length ? Math.max(...products.map((p) => extractWeight(p.weight))) : 0),
-    [products]
+    () =>
+      products.length
+        ? Math.max(...products.map((p) => extractWeight(p.weight)))
+        : 0,
+    [products],
   );
 
-  // Initialize range values for filtering
   const [priceRange, setPriceRange] = useState<[number, number]>([0, maxPrice]);
   const [sizeRange, setSizeRange] = useState<[number, number]>([0, maxSize]);
-  const [weightRange, setWeightRange] = useState<[number, number]>([0, maxWeight]);
+  const [weightRange, setWeightRange] = useState<[number, number]>([
+    0,
+    maxWeight,
+  ]);
 
-  /* Reset ranges when products load */
   useMemo(() => {
     setPriceRange([0, maxPrice]);
     setSizeRange([0, maxSize]);
     setWeightRange([0, maxWeight]);
   }, [maxPrice, maxSize, maxWeight]);
 
-  // Filter products based on the criteria
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Filter by type (best sellers, new arrivals, etc.)
     if (activeFilter === "top") {
-      result = result.filter((p) => p.is_bestseller);
+      const bestSellerIds = bestSellers.map((s) => String(s.product_id));
+      result = result.filter((p) =>
+        bestSellerIds.includes(String(p.product_id)),
+      );
     } else if (activeFilter === "new") {
-      result = result.filter((p) => p.isNewArrival);
+      const newArrivalIds = newArrivals.map((s) => String(s.product_id));
+      result = result.filter((p) =>
+        newArrivalIds.includes(String(p.product_id)),
+      );
     }
 
-    // Filter by category
     if (categoryParam) {
-      result = result.filter((p) => p.category === categoryParam);
+      result = result.filter((p) => String(p.category_id) === categoryParam);
     }
 
-    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
-          p.category.toLowerCase().includes(query) ||
-          p.material.toLowerCase().includes(query)
+          p.category_name.toLowerCase().includes(query) ||
+          p.material.toLowerCase().includes(query),
       );
     }
 
-    // Filter by price range
     result = result.filter(
-      (p) => p.price >= priceRange[0] && p.price <= priceRange[1]
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
     );
 
-    // Filter by size range
     result = result.filter((p) => {
       const size = extractSize(p.dimensions);
       return size >= sizeRange[0] && size <= sizeRange[1];
     });
 
-    // Filter by weight range
     result = result.filter((p) => {
       const weight = extractWeight(p.weight);
       return weight >= weightRange[0] && weight <= weightRange[1];
     });
 
-    // Sorting by price
+    // Sort
     if (sortOrder === "low-to-high") {
       result.sort((a, b) => a.price - b.price);
     } else if (sortOrder === "high-to-low") {
@@ -125,6 +136,8 @@ export default function Shops() {
     weightRange,
     sortOrder,
     categoryParam,
+    bestSellers,
+    newArrivals,
   ]);
 
   return (
@@ -165,7 +178,7 @@ export default function Shops() {
             ${showMobileFilters ? "bg-yellow-500 text-black" : "bg-gray-100 text-black"}
           `}
         >
-          {showMobileFilters ? "Filters" : "Filters"}
+          Filters
         </button>
 
         {/* Body */}
@@ -210,11 +223,6 @@ export default function Shops() {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Optional footer or other content */}
-        <div className="py-8">
-          {/* If you need a pagination component or additional content */}
         </div>
       </div>
     </main>

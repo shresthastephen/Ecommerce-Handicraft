@@ -1,33 +1,28 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import type { Product } from "../types/data";
+import API from "../routes/api";
 
 export const useProduct = (productId?: string) => {
   const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchProductById = useCallback(async () => {
     if (!productId) return;
 
     setLoading(true);
+    setError(null);
 
-    fetch(`http://localhost:8000/api/products/${productId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Product not found");
-        return res.json();
-      })
-      .then((data) => {
-        setProduct({
-          ...data,
-          images: data.images || [], // ✅ only API images
-        });
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setProduct(null);
-        setLoading(false);
-      });
+    try {
+      const res = await API.get(`/products/${productId}`);
+      setProduct(res.data);
+    } catch (err: any) {
+      setError(err.message || "Failed to fetch product");
+      setProduct(null);
+    } finally {
+      setLoading(false);
+    }
   }, [productId]);
 
-  return { product, loading };
+  return { product, loading, error, fetchProductById };
 };
