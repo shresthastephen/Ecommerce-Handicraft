@@ -12,7 +12,7 @@ export function Wishlist() {
 
   const handleAddToCart = (item: (typeof items)[0]) => {
     addToCart(item.product);
-    removeItem(item.product.id);
+    removeItem(item.product.product_id);
     toast.success("Added to cart!");
   };
 
@@ -63,16 +63,16 @@ export function Wishlist() {
             <div className="space-y-4">
               {items.map((item) => (
                 <div
-                  key={item.product.id}
+                  key={item.product.product_id}
                   className="flex gap-3 p-2 rounded-lg"
                 >
                   <Link
-                    to={`/product/${item.product.id}`}
+                    to={`/product/${item.product.product_id}`}
                     onClick={closeWishlist}
                     className="shrink-0"
                   >
                     <img
-                      src={item.product.images[0]}
+                      src={`http://localhost:8000${item.product.images[0]}`}
                       alt={item.product.name}
                       className="w-24 h-24 object-cover rounded-md"
                     />
@@ -80,7 +80,7 @@ export function Wishlist() {
 
                   <div className="flex-1 min-w-0">
                     <Link
-                      to={`/product/${item.product.id}`}
+                      to={`/product/${item.product.product_id}`}
                       onClick={closeWishlist}
                     >
                       <h4 className="font-medium text-sm truncate">
@@ -93,7 +93,7 @@ export function Wishlist() {
                         NPR {item.product.price.toLocaleString()}
                       </span>
                       <span className="text-xs line-through">
-                        NPR {item.product.originalPrice.toLocaleString()}
+                        NPR {item.product.original_price.toLocaleString()}
                       </span>
                     </div>
 
@@ -108,7 +108,7 @@ export function Wishlist() {
 
                       {/* Remove */}
                       <button
-                        onClick={() => removeItem(item.product.id)}
+                        onClick={() => removeItem(item.product.product_id)}
                         className="h-8 w-8 flex items-center justify-center rounded-md text-red hover:bg-red/10"
                         aria-label="Remove from wishlist"
                       >

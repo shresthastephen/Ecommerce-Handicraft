@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type { Product } from "../types/data";
 import API from "../routes/api";
 
@@ -23,6 +23,11 @@ export const useProduct = (productId?: string) => {
       setLoading(false);
     }
   }, [productId]);
+
+  useEffect(() => {
+    fetchProductById();
+  }, [fetchProductById]);
+  
 
   return { product, loading, error, fetchProductById };
 };

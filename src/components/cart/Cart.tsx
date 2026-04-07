@@ -63,16 +63,16 @@ export function Cart() {
             <div className="space-y-4">
               {items.map((item) => (
                 <div
-                  key={item.product.id}
+                  key={item.product.product_id}
                   className="flex gap-3 p-2 rounded-lg"
                 >
                   <Link
-                    to={`/product/${item.product.id}`}
+                    to={`/product/${item.product.product_id}`}
                     onClick={closeCart}
                     className="shrink-0"
                   >
                     <img
-                      src={item.product.images[0]}
+                      src={`http://localhost:8000${item.product.images[0]}`}
                       alt={item.product.name}
                       className="w-24 h-24 object-cover rounded-md"
                     />
@@ -80,7 +80,7 @@ export function Cart() {
 
                   <div className="flex-1 min-w-0">
                     <Link
-                      to={`/product/${item.product.id}`}
+                      to={`/product/${item.product.product_id}`}
                       onClick={closeCart}
                     >
                       <h4 className="font-medium text-m truncate ">
@@ -98,7 +98,7 @@ export function Cart() {
                         <button
                           onClick={() =>
                             updateQuantity(
-                              item.product.id,
+                              item.product.product_id,
                               item.quantity - 1
                             )
                           }
@@ -114,7 +114,7 @@ export function Cart() {
                         <button
                           onClick={() =>
                             updateQuantity(
-                              item.product.id,
+                              item.product.product_id,
                               item.quantity + 1
                             )
                           }
@@ -126,7 +126,7 @@ export function Cart() {
 
                       {/* Remove */}
                       <button
-                        onClick={() => removeItem(item.product.id)}
+                        onClick={() => removeItem(item.product.product_id)}
                         className="h-7 w-7 flex items-center justify-center rounded-md text-red hover:bg-red/10"
                         aria-label="Remove item"
                       >

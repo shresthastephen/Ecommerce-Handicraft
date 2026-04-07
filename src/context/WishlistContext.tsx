@@ -17,7 +17,7 @@ interface WishlistContextType {
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
-const WISHLIST_STORAGE_KEY = "divine-arts-wishlist";
+const WISHLIST_STORAGE_KEY = "shrestha_wishlist";
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<WishlistItem[]>([]);
@@ -40,7 +40,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   const addItem = (product: Product) => {
     setItems((prev) => {
-      if (prev.some((item) => item.product.id === product.id)) {
+      if (prev.some((item) => item.product.product_id === product.product_id)) {
         return prev;
       }
       return [...prev, { product, addedAt: new Date().toISOString() }];
@@ -49,16 +49,16 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = (productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.id !== productId));
+    setItems((prev) => prev.filter((item) => item.product.product_id !== productId));
   };
 
   const isInWishlist = (productId: string) => {
-    return items.some((item) => item.product.id === productId);
+    return items.some((item) => item.product.product_id === productId);
   };
 
   const toggleItem = (product: Product) => {
-    if (isInWishlist(product.id)) {
-      removeItem(product.id);
+    if (isInWishlist(product.product_id)) {
+      removeItem(product.product_id);
     } else {
       addItem(product);
     }

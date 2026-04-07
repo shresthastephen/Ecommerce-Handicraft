@@ -17,7 +17,7 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const CART_STORAGE_KEY = "divine-arts-cart";
+const CART_STORAGE_KEY = "shrestha_cart";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -42,12 +42,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addItem = (product: Product) => {
     setItems((prev) => {
       const existing = prev.find(
-        (item) => item.product.id === product.id
+        (item) => item.product.product_id === product.product_id
       );
 
       if (existing) {
         return prev.map((item) =>
-          item.product.id === product.id
+          item.product.product_id === product.product_id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -56,7 +56,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [
         ...prev,
         {
-          id: product.id,
+          id: product.product_id,
           product,
           quantity: 1,
         },
@@ -68,7 +68,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const removeItem = (productId: string) => {
     setItems((prev) =>
-      prev.filter((item) => item.product.id !== productId)
+      prev.filter((item) => item.product.product_id !== productId)
     );
   };
 
@@ -80,7 +80,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     setItems((prev) =>
       prev.map((item) =>
-        item.product.id === productId
+        item.product.product_id === productId
           ? { ...item, quantity } 
           : item
       )

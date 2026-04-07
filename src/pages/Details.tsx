@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, Minus, Plus, Heart, ShoppingBag } from "lucide-react";
 import { useCategories } from "../hooks/useCategories";
-import { useProduct } from "../hooks/useProduct(ById)";
+import { useProduct } from "../hooks/useProductById";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { toast } from "sonner";
@@ -64,9 +64,9 @@ export default function ProductDetail() {
 
   const isWishlisted = product ? isInWishlist(product.product_id) : false;
 
-  const category = product
-    ? categories.find((c) => c.category_id === product.category_name)
-    : null;
+const category = product
+  ? categories.find((c) => c.category_id === product.category_id)
+  : null;
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -93,10 +93,12 @@ export default function ProductDetail() {
     );
   }
 
-  const discount = product
+ const discount =
+  product && product.original_price > 0
     ? Math.round(
-        ((product.original_price - product.price) / product.original_price) *
-          100,
+        ((product.original_price - product.price) /
+          product.original_price) *
+          100
       )
     : 0;
 
@@ -175,6 +177,8 @@ export default function ProductDetail() {
                       Save {discount}%
                     </span>
                   )}
+
+                  
                 </div>
 
                 <p className="text-muted-foreground mb-6">
