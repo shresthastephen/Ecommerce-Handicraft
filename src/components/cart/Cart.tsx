@@ -3,25 +3,15 @@ import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 export function Cart() {
-  const {
-    items,
-    isOpen,
-    closeCart,
-    updateQuantity,
-    removeItem,
-    subtotal,
-  } = useCart();
+  const { items, isOpen, closeCart, updateQuantity, removeItem, subtotal } =
+    useCart();
 
   if (!isOpen) return null;
 
   return (
     <>
-    
-      <div
-        className="fixed inset-0 bg-black/50 z-50 "
-        onClick={closeCart}
-      />
-      
+      <div className="fixed inset-0 bg-black/50 z-50 " onClick={closeCart} />
+
       <div className="fixed right-0 top-0 h-full w-full md:w-[400px] lg:w-[25%] min-w-[320px] bg-white shadow-xl z-50 animate-slide-in-right flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -44,9 +34,7 @@ export function Cart() {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <ShoppingBag className="h-16 w-16 mb-4" />
-              <h3 className="font-medium mb-2">
-                Your cart is empty
-              </h3>
+              <h3 className="font-medium mb-2">Your cart is empty</h3>
               <p className="text-sm  mb-4">
                 Discover our collection of divine statues
               </p>
@@ -99,7 +87,7 @@ export function Cart() {
                           onClick={() =>
                             updateQuantity(
                               item.product.product_id,
-                              item.quantity - 1
+                              item.quantity - 1,
                             )
                           }
                           className="h-10 w-10 flex items-center justify-center rounded-l-md"
@@ -115,7 +103,7 @@ export function Cart() {
                           onClick={() =>
                             updateQuantity(
                               item.product.product_id,
-                              item.quantity + 1
+                              item.quantity + 1,
                             )
                           }
                           className="h-10 w-10 flex items-center justify-center rounded-r-md "
@@ -150,15 +138,13 @@ export function Cart() {
               </span>
             </div>
 
-            <p className="text-xs">
-              Shipping and taxes calculated at checkout
-            </p>
+            <p className="text-xs">Shipping and taxes calculated at checkout</p>
 
             <button
-              onClick={closeCart}
               className="w-full rounded-md  p-2 text-lg font-medium border-2 border-yellow-500 hover:bg-yellow-500 "
+              onClick={closeCart}
             >
-              Continue Shopping
+              <Link to="/checkout">Proceed to Checkout</Link>
             </button>
           </div>
         )}

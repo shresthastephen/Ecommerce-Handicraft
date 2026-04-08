@@ -14,6 +14,7 @@ import Details from "./pages/Details";
 import ScrollToTop from "./components/ScrollToTop";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Checkout from "./pages/Checkout";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/product/:productId" element={<Details />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
           <Footer />
           <Wishlist />

@@ -72,6 +72,7 @@ export default function About() {
       <section className="py-10 bg-gray-50">
         <div className="container mx-auto px-4 max-w-6xl text-center">
           <h2 className="text-3xl font-medium mb-6">Our Craftsmanship</h2>
+          <div className="w-20 h-1 bg-gold-gradient mx-auto mb-8 rounded-full" />
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl border hover:shadow-md transition">

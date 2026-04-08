@@ -36,14 +36,14 @@ export function RangeSlider({
         className={cn(
           "block h-5 w-5 rounded-full bg-white border-2 border-yellow-500",
           "shadow-sm transition",
-          "hover:scale-110 focus:outline-none focus:ring-2"
+          "hover:scale-110 focus:outline-none focus:ring-2",
         )}
       />
       <Slider.Thumb
         className={cn(
           "block h-5 w-5 rounded-full bg-white border-2 border-yellow-500",
           "shadow-sm transition",
-          "hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary"
+          "hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary",
         )}
       />
     </Slider.Root>

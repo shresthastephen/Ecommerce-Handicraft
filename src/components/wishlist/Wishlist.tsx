@@ -18,10 +18,7 @@ export function Wishlist() {
 
   return (
     <>
-      <div
-        className="fixed inset-0 bg-black/50 z-50"
-        onClick={closeWishlist}
-      />
+      <div className="fixed inset-0 bg-black/50 z-50" onClick={closeWishlist} />
       <div className="fixed right-0 top-0 h-full w-full md:w-[400px] lg:w-[25%] min-w-[320px] bg-white shadow-xl z-50 animate-slide-in-right flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -44,12 +41,8 @@ export function Wishlist() {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Heart className="h-16 w-16 mb-4" />
-              <h3 className="font-medium mb-2">
-                Your wishlist is empty
-              </h3>
-              <p className="text-sm mb-4">
-                Save items you love for later
-              </p>
+              <h3 className="font-medium mb-2">Your wishlist is empty</h3>
+              <p className="text-sm mb-4">Save items you love for later</p>
 
               <Link
                 to="/shops"

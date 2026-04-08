@@ -27,7 +27,6 @@ export const useProduct = (productId?: string) => {
   useEffect(() => {
     fetchProductById();
   }, [fetchProductById]);
-  
 
   return { product, loading, error, fetchProductById };
 };

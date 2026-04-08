@@ -15,7 +15,9 @@ interface WishlistContextType {
   totalItems: number;
 }
 
-const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
+const WishlistContext = createContext<WishlistContextType | undefined>(
+  undefined,
+);
 
 const WISHLIST_STORAGE_KEY = "shrestha_wishlist";
 
@@ -49,7 +51,9 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   };
 
   const removeItem = (productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product.product_id !== productId));
+    setItems((prev) =>
+      prev.filter((item) => item.product.product_id !== productId),
+    );
   };
 
   const isInWishlist = (productId: string) => {

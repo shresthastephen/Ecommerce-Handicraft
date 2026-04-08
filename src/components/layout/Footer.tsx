@@ -10,9 +10,7 @@ export function Footer() {
           <div>
             <Link to="/" className="flex items-center gap-2 mb-2">
               <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
-                <span className="font-bold text-lg">
-                  SH
-                </span>
+                <span className="font-bold text-lg">SH</span>
               </div>
               <span className=" text-xl font-semibold">
                 Shrestha Handicraft
@@ -20,22 +18,31 @@ export function Footer() {
             </Link>
 
             <p className="text-sm text-muted-foreground mb-2">
-              Handcrafted sacred sculptures bringing divinity to your home.
-              Each piece is crafted with devotion and artistry.
+              Handcrafted sacred sculptures bringing divinity to your home. Each
+              piece is crafted with devotion and artistry.
             </p>
 
             <div className="flex gap-4">
-              <SocialIcon label="Facebook">
+              <SocialIcon
+                label="Facebook"
+                href="https://www.facebook.com/shrestha.handicraft/"
+              >
                 <Facebook />
               </SocialIcon>
-              <SocialIcon label="Instagram">
+
+              <SocialIcon
+                label="Instagram"
+                href="https://www.instagram.com/shrestha_handicraft/"
+              >
                 <Instagram />
               </SocialIcon>
-              <SocialIcon label="TikTok">
+
+              <SocialIcon
+                label="TikTok"
+                href="https://www.tiktok.com/@shrestha_handicraft"
+              >
                 <Music2 />
               </SocialIcon>
-              
-              
             </div>
           </div>
 
@@ -54,15 +61,18 @@ export function Footer() {
           {/* Contact */}
           <FooterColumn title="Contact Us">
             <ul className="space-y-2 text-sm ">
-              <li> <a
-                href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 text-sm leading-none"
-              >
-                Yashodhara Marg, <br />
-                Thaina, Lalitpur, Nepal
-              </a></li>
+              <li>
+                {" "}
+                <a
+                  href="https://maps.app.goo.gl/w9V9LKcDpbo9cWC66"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 text-sm leading-none"
+                >
+                  Yashodhara Marg, <br />
+                  Thaina, Lalitpur, Nepal
+                </a>
+              </li>
               <li>
                 <a
                   href="mailto:stephencrestha07@gmail.com"
@@ -72,16 +82,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a
-                  href="tel:+977 9841835052"
-                  className="footer-link"
-                >
+                <a href="tel:+977 9841835052" className="footer-link">
                   +977 9841835052
-                </a> <br />
-                <a
-                  href="tel:+977 9841835052"
-                  className="footer-link"
-                >
+                </a>{" "}
+                <br />
+                <a href="tel:+977 9841835052" className="footer-link">
                   +977 9863021927
                 </a>
               </li>
@@ -97,8 +102,6 @@ export function Footer() {
     </footer>
   );
 }
-
-/* ---------- Reusable Helpers ---------- */
 
 function FooterColumn({
   title,
@@ -134,20 +137,21 @@ function FooterLink({
 function SocialIcon({
   children,
   label,
+  href,
 }: {
   children: React.ReactNode;
   label: string;
+  href: string;
 }) {
   return (
     <a
-      href="#"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
-      className="p-2 rounded-md text-muted-foreground hover:text-yellow-500 transition-colors"
+      className="p-2 text-muted-foreground hover:text-yellow-600 hover:scale-110 transition-all duration-200"
     >
       {children}
     </a>
   );
 }
-
-
-

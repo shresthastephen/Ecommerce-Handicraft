@@ -42,9 +42,7 @@ const contactItems = [
     title: "Email Us",
     icon: Mail,
     content: (
-      <p className="text-gray-600 text-sm">
-        info@shresthahandicraft.com
-      </p>
+      <p className="text-gray-600 text-sm">info@shresthahandicraft.com</p>
     ),
   },
   {
@@ -58,8 +56,6 @@ const contactItems = [
     ),
   },
 ];
-
-
 
 export default function Contact() {
   return (
@@ -90,32 +86,31 @@ export default function Contact() {
 
       {/* Contact Cards */}
       <section className="py-10">
-  <div className="container mx-auto px-4 max-w-6xl">
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-      {contactItems.map((item, index) => {
-        const Icon = item.icon;
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {contactItems.map((item, index) => {
+              const Icon = item.icon;
 
-        return (
-          <div
-            key={index}
-            className="border rounded-2xl py-8 px-6 hover:shadow-lg transition group"
-          >
-            <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
-              <Icon className="w-6 h-6 text-yellow-700" />
-            </div>
+              return (
+                <div
+                  key={index}
+                  className="border rounded-2xl py-8 px-6 hover:shadow-lg transition group"
+                >
+                  <div className="w-14 h-14 bg-yellow-500/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition">
+                    <Icon className="w-6 h-6 text-yellow-700" />
+                  </div>
 
-            <h3 className="font-semibold text-sm md:text-lg mb-3">
-              {item.title}
-            </h3>
+                  <h3 className="font-semibold text-sm md:text-lg mb-3">
+                    {item.title}
+                  </h3>
 
-            {item.content}
+                  {item.content}
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-    </div>
-  </div>
-</section>
-
+        </div>
+      </section>
 
       {/* Map Section */}
       <section className="pb-20">

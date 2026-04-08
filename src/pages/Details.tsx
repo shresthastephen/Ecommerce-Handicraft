@@ -64,9 +64,9 @@ export default function ProductDetail() {
 
   const isWishlisted = product ? isInWishlist(product.product_id) : false;
 
-const category = product
-  ? categories.find((c) => c.category_id === product.category_id)
-  : null;
+  const category = product
+    ? categories.find((c) => c.category_id === product.category_id)
+    : null;
 
   const handleAddToCart = () => {
     if (!product) return;
@@ -93,14 +93,13 @@ const category = product
     );
   }
 
- const discount =
-  product && product.original_price > 0
-    ? Math.round(
-        ((product.original_price - product.price) /
-          product.original_price) *
-          100
-      )
-    : 0;
+  const discount =
+    product && product.original_price > 0
+      ? Math.round(
+          ((product.original_price - product.price) / product.original_price) *
+            100,
+        )
+      : 0;
 
   return (
     <main className="mb-4 py-8">
@@ -177,8 +176,6 @@ const category = product
                       Save {discount}%
                     </span>
                   )}
-
-                  
                 </div>
 
                 <p className="text-muted-foreground mb-6">

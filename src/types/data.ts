@@ -15,7 +15,7 @@ export interface Product {
 }
 
 export interface CategoryInfo {
- category_id: string;
+  category_id: string;
   name: string;
   description: string;
 }
@@ -30,7 +30,6 @@ export interface WishlistItem {
   product: Product;
   addedAt: string;
 }
-
 
 export interface Stock {
   stock_id: number;

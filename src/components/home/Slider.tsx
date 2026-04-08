@@ -8,7 +8,7 @@ export default function Slider() {
       {bannerSlides.map((slide) => (
         <Carousel.Item key={slide.id} interval={3000} className="relative">
           <div className="absolute inset-0 bg-black/40 z-10" />
-          
+
           <img
             src={slide.image}
             alt={slide.title}

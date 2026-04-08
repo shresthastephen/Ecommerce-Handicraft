@@ -21,6 +21,5 @@ export const useCategories = () => {
     }
   }, []);
 
-
   return { categories, loading, error, fetchCategories };
 };
