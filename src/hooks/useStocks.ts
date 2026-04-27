@@ -7,6 +7,10 @@ export const useStocks = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const inStock = useMemo(() => {
+    return stocks.some((s) => s.quantity > 0);
+  }, [stocks]);
+
   const fetchStocks = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -31,5 +35,5 @@ export const useStocks = () => {
     [stocks],
   );
 
-  return { stocks, bestSellers, newArrivals, loading, error, fetchStocks };
+  return { stocks, bestSellers, newArrivals, loading, error, fetchStocks, inStock };
 };

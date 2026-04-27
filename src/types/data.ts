@@ -12,6 +12,7 @@ export interface Product {
   dimensions: string;
   weight: string;
   created_at: string;
+  quantity: number;
 }
 
 export interface CategoryInfo {

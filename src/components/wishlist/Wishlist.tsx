@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { useWishlist } from "../../context/WishlistContext";
 import { useCart } from "../../context/CartContext";
+import { cn } from "../../libs/utils";
 
 export function Wishlist() {
   const { items, isOpen, closeWishlist, removeItem } = useWishlist();
   const { addItem: addToCart } = useCart();
+
+  const inStock = items.length > 0 ? items[0].product.quantity > 0 : false;
 
   if (!isOpen) return null;
 
@@ -54,63 +57,72 @@ export function Wishlist() {
             </div>
           ) : (
             <div className="space-y-4">
-              {items.map((item) => (
-                <div
-                  key={item.product.product_id}
-                  className="flex gap-3 p-2 rounded-lg"
-                >
-                  <Link
-                    to={`/product/${item.product.product_id}`}
-                    onClick={closeWishlist}
-                    className="shrink-0"
+              {items.map((item) => {
+                const itemInStock = item.product.quantity > 0; 
+                return (
+                  <div
+                    key={item.product.product_id}
+                    className="flex gap-3 p-2 rounded-lg"
                   >
-                    <img
-                      src={`http://localhost:8000${item.product.images[0]}`}
-                      alt={item.product.name}
-                      className="w-24 h-24 object-cover rounded-md"
-                    />
-                  </Link>
-
-                  <div className="flex-1 min-w-0">
                     <Link
                       to={`/product/${item.product.product_id}`}
                       onClick={closeWishlist}
+                      className="shrink-0"
                     >
-                      <h4 className="font-medium text-sm truncate">
-                        {item.product.name}
-                      </h4>
+                      <img
+                        src={`http://localhost:8000${item.product.images[0]}`}
+                        alt={item.product.name}
+                        className="w-24 h-24 object-cover rounded-md"
+                      />
                     </Link>
 
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className=" font-semibold text-sm">
-                        NPR {item.product.price.toLocaleString()}
-                      </span>
-                      <span className="text-xs line-through">
-                        NPR {item.product.original_price.toLocaleString()}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 mt-3">
-                      <button
-                        onClick={() => handleAddToCart(item)}
-                        className="flex-1 inline-flex items-center justify-center gap-1 rounded-md border-2 border-yellow-500 px-3 py-1 "
+                    <div className="flex-1 min-w-0">
+                      <Link
+                        to={`/product/${item.product.product_id}`}
+                        onClick={closeWishlist}
                       >
-                        <ShoppingBag className="h-3 w-3" />
-                        Add to Cart
-                      </button>
+                        <h4 className="font-medium text-sm truncate">
+                          {item.product.name}
+                        </h4>
+                      </Link>
 
-                      {/* Remove */}
-                      <button
-                        onClick={() => removeItem(item.product.product_id)}
-                        className="h-8 w-8 flex items-center justify-center rounded-md text-red hover:bg-red/10"
-                        aria-label="Remove from wishlist"
-                      >
-                        <Trash2 className="h-5 w-5 hover:text-red-500" />
-                      </button>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className=" font-semibold text-sm">
+                          NPR {item.product.price.toLocaleString()}
+                        </span>
+                        <span className="text-xs line-through">
+                          NPR {item.product.original_price.toLocaleString()}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-3">
+                        <button
+                          onClick={() => handleAddToCart(item)}
+                          className={cn(
+                            "flex-1 inline-flex items-center justify-center gap-1 rounded-md border-2 px-3 py-1",
+                            itemInStock
+                              ? "border-yellow-500 bg-white hover:bg-yellow-50"
+                              : "border-gray-300 text-gray-400 cursor-not-allowed",
+                          )}
+                          disabled={!itemInStock}
+                        >
+                          <ShoppingBag className="h-3 w-3" />
+                          {itemInStock ? "Add to Cart" : "Out of Stock"}
+                        </button>
+
+                        {/* Remove */}
+                        <button
+                          onClick={() => removeItem(item.product.product_id)}
+                          className="h-8 w-8 flex items-center justify-center rounded-md text-red hover:bg-red/10"
+                          aria-label="Remove from wishlist"
+                        >
+                          <Trash2 className="h-5 w-5 hover:text-red-500" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

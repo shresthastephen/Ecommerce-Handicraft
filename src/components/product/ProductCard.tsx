@@ -22,10 +22,12 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const handleWishlistClick = () => {
     toggleItem(product);
+    console.log(product);
+    console.log("CARD:", product.quantity);
   };
 
   return (
-    <div className="group relative block bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-all duration-300">
+    <div className="group relative block bg-card rounded-xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300">
       {/* Wishlist */}
       <button
         type="button"
@@ -47,7 +49,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <Link to={`/product/${product.product_id}`}>
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-muted">
+        <div className="relative aspect-[3/3] overflow-hidden bg-muted">
           <img
             src={`http://localhost:8000${product?.images[0]}`}
             alt={product.name}
@@ -55,28 +57,28 @@ export function ProductCard({ product }: ProductCardProps) {
           />
 
           {discount > 0 && (
-            <span className="absolute top-3 left-3 px-2 py-1 text-xs font-semibold bg-gold-gradient text-white rounded">
+            <span className="absolute top-3 left-3 px-3 py-1 text-sm font-semibold bg-gold-gradient text-white rounded">
               -{discount}%
             </span>
           )}
         </div>
 
-        <div className="p-4">
-          <h3 className="font-medium text-foreground truncate group-hover:text-yellow-500 transition-colors">
+        <div className="p-6">
+          <h3 className="font-semibold text-lg md:text-xl text-foreground truncate group-hover:text-yellow-500 transition-colors">
             {product.name}
           </h3>
 
-          <p className="text-xs text-muted-foreground mt-1 capitalize">
+          <p className="text-sm md:text-base text-muted-foreground mt-1 capitalize">
             {product.material}
           </p>
 
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-sm md:text-lg font-semibold text-yellow-500">
+          <div className="flex items-center gap-3 mt-3">
+            <span className="text-base md:text-lg font-bold text-yellow-500">
               NPR {product.price.toLocaleString()}
             </span>
 
             {product.original_price > product.price && (
-              <span className="text-sm text-muted-foreground line-through">
+              <span className="text-sm md:text-base text-muted-foreground line-through">
                 NPR {product.original_price.toLocaleString()}
               </span>
             )}

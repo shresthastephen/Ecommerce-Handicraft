@@ -40,15 +40,31 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
+  // const addItem = (product: Product) => {
+  //   setItems((prev) => {
+  //     if (prev.some((item) => item.product.product_id === product.product_id)) {
+  //       return prev;
+  //     }
+  //     return [...prev, { product, addedAt: new Date().toISOString() }];
+  //   });
+  //   setIsOpen(true);
+  // };
+
   const addItem = (product: Product) => {
-    setItems((prev) => {
-      if (prev.some((item) => item.product.product_id === product.product_id)) {
-        return prev;
-      }
-      return [...prev, { product, addedAt: new Date().toISOString() }];
-    });
-    setIsOpen(true);
+  const normalizedProduct = {
+    ...product,
+    quantity: product.quantity ?? 1, // ✅ fallback
   };
+
+  setItems((prev) => {
+    if (prev.some((item) => item.product.product_id === product.product_id)) {
+      return prev;
+    }
+    return [...prev, { product: normalizedProduct, addedAt: new Date().toISOString() }];
+  });
+
+  setIsOpen(true);
+};
 
   const removeItem = (productId: string) => {
     setItems((prev) =>
