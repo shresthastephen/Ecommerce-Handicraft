@@ -36,7 +36,7 @@ export function Cart() {
               <ShoppingBag className="h-16 w-16 mb-4" />
               <h3 className="font-medium mb-2">Your cart is empty</h3>
               <p className="text-sm  mb-4">
-                Discover our collection of divine statues
+                Discover our collection of statues
               </p>
 
               <Link

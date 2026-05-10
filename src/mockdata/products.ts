@@ -15,7 +15,7 @@ export const bannerSlides = [
   {
     id: 2,
     title: "New Arrivals",
-    subtitle: "Discover Our Latest Sculptures",
+    subtitle: "Discover Our Latest Statues Crafted with Devotion",
     image: slide2,
     cta: "Shop New",
     link: "/shops?filter=new",

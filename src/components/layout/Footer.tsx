@@ -18,7 +18,7 @@ export function Footer() {
             </Link>
 
             <p className="text-sm text-muted-foreground mb-2">
-              Handcrafted sacred sculptures bringing divinity to your home. Each
+              Handcrafted sacred statues bringing divinity to your home. Each
               piece is crafted with devotion and artistry.
             </p>
 

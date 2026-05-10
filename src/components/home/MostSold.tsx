@@ -110,7 +110,7 @@ export function MostSold() {
             Most Sold Products
           </h2>
           <p className="text-muted-foreground">
-            Our most popular divine sculptures loved by customers
+            Our most popular statues loved by customers
           </p>
         </div>
 
