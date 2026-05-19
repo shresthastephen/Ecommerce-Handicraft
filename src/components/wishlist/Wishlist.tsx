@@ -58,7 +58,7 @@ export function Wishlist() {
           ) : (
             <div className="space-y-4">
               {items.map((item) => {
-                const itemInStock = item.product.quantity > 0; 
+                const itemInStock = item.product.quantity > 0;
                 return (
                   <div
                     key={item.product.product_id}

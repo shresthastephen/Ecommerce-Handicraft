@@ -34,10 +34,9 @@ export default function About() {
             <h2 className="text-3xl font-medium mb-6">Our Sacred Creations</h2>
 
             <p className="text-gray-600 leading-relaxed">
-              Our collection includes statues crafted with spiritual
-              accuracy and artistic detail. Each statue is carefully shaped to
-              reflect authentic expressions, sacred mudras, and traditional
-              symbolism.
+              Our collection includes statues crafted with spiritual accuracy
+              and artistic detail. Each statue is carefully shaped to reflect
+              authentic expressions, sacred mudras, and traditional symbolism.
             </p>
 
             <p className="text-gray-600 leading-relaxed mt-4">

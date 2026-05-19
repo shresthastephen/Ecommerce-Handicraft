@@ -15,6 +15,12 @@ export function Navbar() {
   const categoryRef = useRef<HTMLDivElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
+  const capitalize = (str: string) =>
+    str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
   const navigate = useNavigate();
   const { totalItems: cartItems, openCart } = useCart();
   const { totalItems: wishlistItems, openWishlist } = useWishlist();
@@ -116,7 +122,7 @@ export function Navbar() {
                       onClick={() => setIsCategoryOpen(false)}
                       className="block px-4 py-2 text-sm hover:bg-muted transition"
                     >
-                      {cat.name}
+                      {capitalize(cat.name)}
                     </Link>
                   ))}
                 </div>
@@ -229,7 +235,7 @@ export function Navbar() {
                       }}
                       className="block px-4 py-2 text-sm hover:bg-muted transition"
                     >
-                      {cat.name}
+                      {capitalize(cat.name)}
                     </Link>
                   ))}
                 </div>

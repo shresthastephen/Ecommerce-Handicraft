@@ -7,6 +7,12 @@ export function Categories() {
   const { categories, loading: catLoading, fetchCategories } = useCategories();
   const { products, loading: prodLoading, fetchProducts } = useProducts();
 
+  const capitalize = (str: string) =>
+    str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
   useEffect(() => {
     fetchCategories();
     fetchProducts();
@@ -44,7 +50,7 @@ export function Categories() {
                 </div>
 
                 <span className="mt-3 text-sm md:text-base font-medium group-hover:text-yellow-600 transition-colors">
-                  {category.name}
+                  {capitalize(category.name)}
                 </span>
               </Link>
             );

@@ -51,20 +51,23 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   // };
 
   const addItem = (product: Product) => {
-  const normalizedProduct = {
-    ...product,
-    quantity: product.quantity ?? 1, // ✅ fallback
+    const normalizedProduct = {
+      ...product,
+      quantity: product.quantity ?? 1, // ✅ fallback
+    };
+
+    setItems((prev) => {
+      if (prev.some((item) => item.product.product_id === product.product_id)) {
+        return prev;
+      }
+      return [
+        ...prev,
+        { product: normalizedProduct, addedAt: new Date().toISOString() },
+      ];
+    });
+
+    setIsOpen(true);
   };
-
-  setItems((prev) => {
-    if (prev.some((item) => item.product.product_id === product.product_id)) {
-      return prev;
-    }
-    return [...prev, { product: normalizedProduct, addedAt: new Date().toISOString() }];
-  });
-
-  setIsOpen(true);
-};
 
   const removeItem = (productId: string) => {
     setItems((prev) =>

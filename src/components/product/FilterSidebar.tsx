@@ -39,7 +39,7 @@ export function FilterSidebar({
     <aside className="w-full md:w-56 shrink-0">
       <h3 className="font-semibold mb-4">Filters</h3>
 
-      {/* PRICE */}
+      {/* price */}
       <div className="mb-6">
         <label className="text-sm font-medium block mb-2">
           Price Range (₹)
@@ -58,7 +58,7 @@ export function FilterSidebar({
         </div>
       </div>
 
-      {/* SIZE */}
+      {/* size */}
       <div className="mb-6">
         <label className="text-sm font-medium block mb-2">Size (inches)</label>
 
@@ -75,7 +75,7 @@ export function FilterSidebar({
         </div>
       </div>
 
-      {/* WEIGHT */}
+      {/* weight */}
       <div className="mb-6">
         <label className="text-sm font-medium block mb-2">Weight (kg)</label>
 

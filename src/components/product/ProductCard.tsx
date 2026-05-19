@@ -26,6 +26,12 @@ export function ProductCard({ product }: ProductCardProps) {
     console.log("CARD:", product.quantity);
   };
 
+  const capitalize = (str: string | number) =>
+    String(str)
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+
   return (
     <div className="group relative block bg-card rounded-xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300">
       {/* Wishlist */}
@@ -65,7 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="p-6">
           <h3 className="font-semibold text-lg md:text-xl text-foreground truncate group-hover:text-yellow-500 transition-colors">
-            {product.name}
+            {capitalize(product.name)}
           </h3>
 
           <p className="text-sm md:text-base text-muted-foreground mt-1 capitalize">

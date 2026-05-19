@@ -46,7 +46,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* links */}
           <FooterColumn title="Quick Links">
             <FooterLink to="/">Home</FooterLink>
             <FooterLink to="/shops">All Products</FooterLink>
@@ -94,7 +94,7 @@ export function Footer() {
           </FooterColumn>
         </div>
 
-        {/* Bottom */}
+        {/* bottom */}
         <div className="border-t border-border mt-8 pt-6 text-center text-sm text-muted-foreground">
           © {new Date().getFullYear()} Shrestha Handicraft. All rights reserved.
         </div>
