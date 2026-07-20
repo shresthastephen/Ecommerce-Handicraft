@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
@@ -22,6 +22,8 @@ export function Navbar() {
       .join(" ");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const hideSearch = location.pathname === "/shops"; //removed search bar
   const { totalItems: cartItems, openCart } = useCart();
   const { totalItems: wishlistItems, openWishlist } = useWishlist();
 
@@ -131,22 +133,24 @@ export function Navbar() {
           </div>
 
           {/* Search */}
-          <form
-            onSubmit={handleSearch}
-            className="hidden md:flex flex-1 max-w-md mx-4"
-          >
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
-              <input
-                type="search"
-                placeholder="Search for statues..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-3 py-2 rounded-md bg-white border border-black outline-none
+          {!hideSearch && (
+            <form
+              onSubmit={handleSearch}
+              className="hidden md:flex flex-1 max-w-md mx-4"
+            >
+              <div className="relative w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
+                <input
+                  type="search"
+                  placeholder="Search for statues..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 rounded-md bg-white border border-black outline-none
                   focus:ring-1 focus:ring-yellow-500"
-              />
-            </div>
-          </form>
+                />
+              </div>
+            </form>
+          )}
 
           {/* Buttons */}
           <div className="flex items-center gap-2">

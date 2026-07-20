@@ -11,7 +11,7 @@ export function FilterButtons({
 }: FilterButtonsProps) {
   const filters: { label: string; value: FilterType }[] = [
     { label: "All", value: "all" },
-    { label: "Top Sellers", value: "top" },
+    { label: "Best Sellers", value: "top" },
     { label: "New Arrivals", value: "new" },
   ];
 
