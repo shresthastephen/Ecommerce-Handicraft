@@ -26,7 +26,7 @@ function extractWeight(weight: string): number {
 export default function Shops() {
   const { products, fetchProducts, loading } = useProducts();
   const { bestSellers, newArrivals, fetchStocks } = useStocks();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const categoryParam = searchParams.get("category");
   const initialFilter = (searchParams.get("filter") as FilterType) || "all";
@@ -75,6 +75,47 @@ export default function Shops() {
     setSizeRange([0, maxSize]);
     setWeightRange([0, maxWeight]);
   }, [maxPrice, maxSize, maxWeight]);
+
+  const hasActiveFilters = useMemo(() => {
+    return (
+      activeFilter !== "all" ||
+      Boolean(searchQuery.trim()) ||
+      Boolean(categoryParam) ||
+      sortOrder !== "none" ||
+      priceRange[0] !== 0 ||
+      priceRange[1] !== maxPrice ||
+      sizeRange[0] !== 0 ||
+      sizeRange[1] !== maxSize ||
+      weightRange[0] !== 0 ||
+      weightRange[1] !== maxWeight
+    );
+  }, [
+    activeFilter,
+    searchQuery,
+    categoryParam,
+    sortOrder,
+    priceRange,
+    sizeRange,
+    weightRange,
+    maxPrice,
+    maxSize,
+    maxWeight,
+  ]);
+
+  const clearAllFilters = () => {
+    setActiveFilter("all");
+    setSearchQuery("");
+    setSortOrder("none");
+    setPriceRange([0, maxPrice]);
+    setSizeRange([0, maxSize]);
+    setWeightRange([0, maxWeight]);
+
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete("category");
+    nextParams.delete("filter");
+    nextParams.delete("search");
+    setSearchParams(nextParams);
+  };
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
@@ -153,6 +194,8 @@ export default function Shops() {
             <FilterButtons
               activeFilter={activeFilter}
               onFilterChange={setActiveFilter}
+              hasActiveFilters={hasActiveFilters}
+              onClearFilters={clearAllFilters}
             />
 
             <div className="flex-1 hidden sm:block" />
